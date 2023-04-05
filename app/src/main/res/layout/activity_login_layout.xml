@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    
+    <TextView
+        android:id="@+id/tv_login_title"
+        style="@style/CommonTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/three_fourths_normal_margin"
+        android:padding="@dimen/half_of_normal_padding"
+        android:text="@string/account_login_title"
+        android:textColor="@color/normal_text_color"
+        android:textStyle="bold"/>
+    
+    <TextView
+        android:id="@+id/btn_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/three_fourths_normal_margin"
+        android:layout_marginEnd="@dimen/three_fourths_normal_margin"
+        android:autoLink="all"
+        android:padding="@dimen/half_of_normal_padding"
+        android:text="@string/account_reset_forget_password"
+        android:textColor="@drawable/textview_click_selector"
+        android:textSize="@dimen/tips_size"/>
+</RelativeLayout>
