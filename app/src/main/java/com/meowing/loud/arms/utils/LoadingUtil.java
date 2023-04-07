@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
-import com.meowing.loud.R;
+import com.meowing.loud.moneybao.R;
 
 public class LoadingUtil {
     private Dialog mDialog;

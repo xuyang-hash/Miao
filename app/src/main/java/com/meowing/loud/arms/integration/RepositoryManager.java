@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Lazy;
+import io.rx_cache2.internal.RxCache;
 import retrofit2.Retrofit;
 
 /**

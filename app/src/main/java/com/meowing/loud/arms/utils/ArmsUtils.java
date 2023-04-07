@@ -59,12 +59,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import com.meowing.loud.R;
 import com.meowing.loud.arms.base.App;
 import com.meowing.loud.arms.di.component.AppComponent;
 import com.meowing.loud.arms.integration.AppManager;
-
-import org.jetbrains.annotations.NotNull;
+import com.meowing.loud.moneybao.R;
 
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;

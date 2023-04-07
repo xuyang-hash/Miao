@@ -5,13 +5,19 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.solver.Cache;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.meowing.loud.arms.di.component.AppComponent;
+import com.meowing.loud.arms.integration.ActivityLifecycle;
 import com.meowing.loud.arms.integration.AppManager;
+import com.meowing.loud.arms.integration.FragmentLifecycle;
+import com.meowing.loud.arms.integration.IRepositoryManager;
+import com.meowing.loud.arms.integration.RepositoryManager;
+import com.meowing.loud.arms.integration.cache.Cache;
+import com.meowing.loud.arms.integration.cache.CacheType;
+import com.meowing.loud.arms.integration.lifecycle.ActivityLifecycleForRxLifecycle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +39,7 @@ import dagger.Provides;
  * ================================================
  */
 @Module
-public class AppModule {
+public abstract class AppModule {
     @Singleton
     @Provides
     static Gson provideGson(Application application, @Nullable GsonConfiguration configuration) {
