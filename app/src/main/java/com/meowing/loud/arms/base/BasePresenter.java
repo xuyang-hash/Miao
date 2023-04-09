@@ -6,8 +6,8 @@ import org.greenrobot.eventbus.EventBus;
 
 public class BasePresenter<M extends IModel, V extends IView> implements IPresenter{
 
-    private M mModel;
-    private V mRootView;
+    protected M mModel;
+    protected V mRootView;
 
     /**
      * 如果当前页面同时需要 Model 层和 View 层,则使用此构造函数(默认)
@@ -18,18 +18,6 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
     public BasePresenter(M model, V rootView) {
         this.mModel = model;
         this.mRootView = rootView;
-    }
-
-    /**
-     * 如果当前页面不需要操作数据,只需要 View 层,则使用此构造函数
-     *
-     * @param rootView
-     */
-    public BasePresenter(V rootView) {
-        this.mRootView = rootView;
-    }
-
-    public BasePresenter() {
     }
     @Override
     public void onStart() {

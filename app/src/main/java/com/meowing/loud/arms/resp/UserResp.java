@@ -41,6 +41,17 @@ public class UserResp {
      */
     private String answer2;
 
+    public UserResp(int uid, String username, String password, String imageString, String question1, String answer1, String question2, String answer2) {
+        this.uid = uid;
+        this.username = username;
+        this.password = password;
+        this.imageString = imageString;
+        this.question1 = question1;
+        this.answer1 = answer1;
+        this.question2 = question2;
+        this.answer2 = answer2;
+    }
+
     public void setUid(int uid) {
         this.uid = uid;
     }

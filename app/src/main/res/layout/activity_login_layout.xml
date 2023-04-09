@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_fa"
     android:fitsSystemWindows="true">
-    
+
     <TextView
-        android:id="@+id/tv_login_title"
+        android:id="@+id/tv_title"
         style="@style/CommonTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,10 +18,13 @@
         android:padding="@dimen/half_of_normal_padding"
         android:text="@string/account_login_title"
         android:textColor="@color/normal_text_color"
-        android:textStyle="bold"/>
-    
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/rl_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <TextView
-        android:id="@+id/btn_forget_password"
+        android:id="@+id/tv_forget_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -27,5 +34,173 @@
         android:padding="@dimen/half_of_normal_padding"
         android:text="@string/account_reset_forget_password"
         android:textColor="@drawable/textview_click_selector"
-        android:textSize="@dimen/tips_size"/>
+        android:textSize="@dimen/tips_size"
+        app:layout_constraintBottom_toTopOf="@id/rl_logo"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/rl_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/csl_content"
+        android:layout_below="@id/tv_title"
+        app:layout_constraintBottom_toTopOf="@id/csl_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_login_logo" />
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/csl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/half_of_normal_padding"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <RadioGroup
+            android:id="@+id/rb_login_type_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/half_of_normal_margin"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/ll_username"
+            app:layout_constraintStart_toStartOf="@id/ll_username">
+
+            <RadioButton
+                android:id="@+id/rb_login_type_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:layout_gravity="center_vertical"
+                android:text="@string/account_login_type_user_title"
+                android:textSize="@dimen/subtitle_size" />
+
+            <RadioButton
+                android:id="@+id/rb_login_type_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/account_login_type_admin_title"
+                android:textSize="@dimen/subtitle_size" />
+        </RadioGroup>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/half_of_normal_margin"
+            android:background="@drawable/bg_r_8_soild_white"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/ll_password"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_username"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:hint="@string/account_login_input_username"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:paddingStart="@dimen/dp_30"
+                android:paddingEnd="@dimen/dp_40"
+                android:singleLine="true"
+                android:textColor="@color/normal_text_color"
+                android:textColorHint="@color/hint_color"
+                android:textCursorDrawable="@drawable/theme_color_cursor"
+                android:textSize="@dimen/tips_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btn_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/three_fourths_normal_margin"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/et_username"
+                app:layout_constraintRight_toRightOf="@id/et_username"
+                app:layout_constraintTop_toTopOf="@id/et_username" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/half_of_normal_margin"
+            android:layout_marginRight="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:background="@drawable/bg_r_8_soild_white"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/tv_login">
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_48"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:drawablePadding="@dimen/small_padding"
+                android:hint="@string/account_login_input_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/dp_30"
+                android:paddingEnd="@dimen/half_of_normal_padding"
+                android:singleLine="true"
+                android:textColor="@color/normal_text_color"
+                android:textColorHint="@color/hint_color"
+                android:textCursorDrawable="@drawable/theme_color_cursor"
+                android:textSize="@dimen/tips_size" />
+
+            <ImageView
+                android:id="@+id/cb_eye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/three_fourths_normal_margin"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_login"
+            style="@style/CommonButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginLeft="@dimen/normal_left_right_margin"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_marginRight="@dimen/normal_left_right_margin"
+            android:layout_marginBottom="@dimen/half_of_normal_margin"
+            android:gravity="center"
+            android:text="@string/account_login_text"
+            android:textColor="@color/theme_color"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_register" />
+
+
+        <TextView
+            android:id="@+id/tv_register"
+            style="@style/CommonButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginLeft="@dimen/normal_left_right_margin"
+            android:layout_marginRight="@dimen/normal_left_right_margin"
+            android:layout_marginBottom="@dimen/dp_90"
+            android:gravity="center"
+            android:text="@string/account_register_text"
+            android:textColor="@color/normal_text_color"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </RelativeLayout>

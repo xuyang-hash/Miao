@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.meowing.loud.arms.base.App;
 import com.meowing.loud.arms.base.AppUtil;
 import com.meowing.loud.arms.di.component.AppComponent;
+import com.meowing.loud.arms.di.component.DaggerAppComponent;
 import com.meowing.loud.arms.di.module.GlobalConfigModule;
 import com.meowing.loud.arms.integration.ConfigModule;
 import com.meowing.loud.arms.integration.ManifestParser;

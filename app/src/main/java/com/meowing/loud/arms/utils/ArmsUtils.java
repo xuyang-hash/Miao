@@ -19,7 +19,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AppOpsManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -62,7 +61,7 @@ import com.google.gson.Gson;
 import com.meowing.loud.arms.base.App;
 import com.meowing.loud.arms.di.component.AppComponent;
 import com.meowing.loud.arms.integration.AppManager;
-import com.meowing.loud.moneybao.R;
+import com.meowing.loud.R;
 
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
@@ -956,47 +955,6 @@ public class ArmsUtils {
             return (T) new Gson().fromJson(new Gson().toJson(data), data.getClass());
         }
         return null;
-    }
-
-    //跳转到热点页面
-    public static void jumpToHotSpotApPage(Context context) {
-        if (!Build.BRAND.equalsIgnoreCase("huawei") && !Build.BRAND.equalsIgnoreCase("honor")) {
-            jumpToHotSpotApPageCompat(context);
-            return;
-        }//end of if
-        try {
-            Intent intent = new Intent();
-            intent.addCategory(Intent.CATEGORY_DEFAULT);
-            intent.setAction("android.intent.action.MAIN");
-            intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$WirelessSettingsActivity"));
-            context.startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            jumpToHotSpotApPageCompat(context);
-        }
-    }
-
-    //跳转到热点页面兼容特殊机型的特殊处理
-    public static void jumpToHotSpotApPageCompat(Context context) {
-        try {
-            Intent intent = new Intent();
-            intent.addCategory(Intent.CATEGORY_DEFAULT);
-            intent.setAction("android.intent.action.MAIN");
-            intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.TetherSettings"));
-            context.startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                Intent intent = new Intent();
-                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                intent.setAction("android.intent.action.MAIN");
-                intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$TetherSettingsActivity"));
-                context.startActivity(intent);
-            } catch (Exception e2) {
-                e2.printStackTrace();
-                Toast.makeText(getContext(), R.string.device_connect_by_hotspot_jump_failed, Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     /**

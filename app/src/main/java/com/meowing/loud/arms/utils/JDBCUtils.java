@@ -7,11 +7,11 @@ import java.sql.SQLException;
 public class JDBCUtils {
     private static String driver = "com.mysql.jdbc.Driver";// MySql驱动
 
-    private static String url = "jdbc:mysql://gz-cynosdbmysql-grp-mit0vlwz.sql.tencentcdb.com:21166/music?characterEncoding=utf-8&useSSL=false";
+    private static String url = "jdbc:mysql://gz-cynosdbmysql-grp-mit0vlwz.sql.tencentcdb.com:21166/music?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT";
 
     private static String user = "xuyang";// 用户名
 
-    private static String password = "xuyang1119";// 密码
+    private static String password = "Xy2233484461";// 密码
 
     public static Connection getConn(){
 

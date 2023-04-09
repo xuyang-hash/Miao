@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CommonContent" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/content_color</item>
+        <item name="android:textSize">@dimen/subtitle_size</item>
+    </style>
+
+    <style name="CommonButton" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/theme_color</item>
+        <item name="android:textSize">@dimen/subtitle_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:height">@dimen/dp_48</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_border_b9b9b9_w_0_5_soild_white_r_8</item>
+        <item name="android:foreground">@drawable/foreground_r8</item>
+    </style>
+</resources>
