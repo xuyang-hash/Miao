@@ -19,12 +19,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -253,6 +256,19 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends IPresenter>
         if (needFinish) {
             finish();
         }
+    }
+
+    /**
+     * 密码可见
+     * @param visible true 明文  false  密文
+     */
+    protected void setEditTextVisible(EditText etPassword, boolean visible) {
+        if (visible) {
+            etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        } else {
+            etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        }
+        etPassword.setSelection(etPassword.getText().toString().length());
     }
 }
 

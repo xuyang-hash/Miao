@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginLayoutBinding, Logi
 
     @Override
     public void initView() {
-
+        isUserLogin = true;
         /**
          * 登录角色选择监听
          */
@@ -65,6 +65,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginLayoutBinding, Logi
             }
         });
 
+        binding.cbEye.setOnClickListener(this);
+
         binding.tvLogin.setOnClickListener(this);
         binding.tvForgetPassword.setOnClickListener(this);
         binding.tvRegister.setOnClickListener(this);
@@ -81,6 +83,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginLayoutBinding, Logi
 
         } else if (id == R.id.tv_register) {
             RegisterActivity.start(this);
+        } else if (id == R.id.cb_eye) {
+            boolean afterState = !binding.cbEye.isSelected();
+            binding.cbEye.setSelected(afterState);
+            setEditTextVisible(binding.etPassword, afterState);
         }
     }
 

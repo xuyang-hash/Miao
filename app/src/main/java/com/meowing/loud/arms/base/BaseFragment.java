@@ -1,14 +1,15 @@
 package com.meowing.loud.arms.base;
 
-import static com.meowing.loud.arms.utils.ArmsUtils.startActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -190,6 +191,19 @@ public abstract class BaseFragment<VB extends ViewBinding, P extends IPresenter>
 
     public void navigator(Class<?> className) {
         startActivity(new Intent(requireActivity(), className));
+    }
+
+    /**
+     * 设置密码框可见状态
+     * @param visible true 明文  false  密文
+     */
+    protected void setEditTextVisible(EditText etPassword, boolean visible) {
+        if (visible) {
+            etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        } else {
+            etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        }
+        etPassword.setSelection(etPassword.getText().toString().length());
     }
 
     /**

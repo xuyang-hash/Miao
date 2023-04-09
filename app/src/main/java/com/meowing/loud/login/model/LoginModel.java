@@ -43,7 +43,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
             @Override
             public void run() {
                 Connection connection = JDBCUtils.getConn();
-                String sql = "select password from User where account = ?";
+                String sql = "select password from User where username = ?";
                 PreparedStatement ps = null;
                 ResultSet resultSet = null;
                 Message msg = new Message();
@@ -89,7 +89,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
             @Override
             public void run() {
                 Connection connection = JDBCUtils.getConn();
-                String sql = "select password from Admin where account = ?";
+                String sql = "select password from Admin where username = ?";
                 PreparedStatement ps = null;
                 ResultSet resultSet = null;
                 Message msg = new Message();
@@ -232,16 +232,13 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                     Listener listener = null;
                     switch (msg.what) {
                         case OPT_LOGIN_USER:
+                            listener = listenerHashMap.get(OPT_LOGIN_USER);
                             break;
                         case OPT_LOGIN_ADMIN:
+                            listener = listenerHashMap.get(OPT_LOGIN_ADMIN);
                             break;
                         case OPT_REGISTER:
                             listener = listenerHashMap.get(OPT_REGISTER);
-                            if (msg.arg1 >= 0) {
-                                listener.onSuccess(null);
-                            } else {
-                                listener.onFailed(msg.arg1);
-                            }
                             break;
                         case OPT_FIND_USER:
                             listener = listenerHashMap.get(OPT_FIND_USER);

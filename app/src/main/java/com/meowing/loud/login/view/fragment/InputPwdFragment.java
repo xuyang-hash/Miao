@@ -49,11 +49,12 @@ public class InputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding
     public void initView(View mView) {
         ArmsUtils.showPwdLevel(getContext(), binding.etPassword1, binding.passwordPowerPoor, binding.passwordPowerMiddle, binding.passwordPowerStrong);
         binding.tvInputPwdSubmit.setOnClickListener(this);
+        binding.cbEye1.setOnClickListener(this);
+        binding.cbEye2.setOnClickListener(this);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -99,6 +100,12 @@ public class InputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding
             }
             showLoading();
             mPresenter.findUser(username);
+        } else if (id == R.id.cb_eye_1 || id == R.id.cb_eye_2) {
+            boolean afterState = !binding.cbEye1.isSelected();
+            binding.cbEye1.setSelected(afterState);
+            binding.cbEye2.setSelected(afterState);
+            setEditTextVisible(binding.etPassword1, afterState);
+            setEditTextVisible(binding.etPassword2, afterState);
         }
     }
 

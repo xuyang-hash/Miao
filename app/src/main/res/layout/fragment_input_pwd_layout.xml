@@ -74,7 +74,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_r_8_soild_white"
                 android:hint="@string/account_login_input_password"
-                android:inputType="textPassword"
                 android:paddingLeft="@dimen/dp_18"
                 android:paddingRight="@dimen/dp_18"
                 android:textColor="@color/normal_text_color"

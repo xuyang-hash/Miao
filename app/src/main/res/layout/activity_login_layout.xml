@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/three_fourths_normal_margin"
-                android:visibility="gone" />
+                android:src="@drawable/cb_password_eye_selector" />
         </LinearLayout>
 
         <TextView
@@ -195,7 +195,7 @@
             android:layout_height="@dimen/dp_48"
             android:layout_marginLeft="@dimen/normal_left_right_margin"
             android:layout_marginRight="@dimen/normal_left_right_margin"
-            android:layout_marginBottom="@dimen/dp_90"
+            android:layout_marginBottom="@dimen/dp_180"
             android:gravity="center"
             android:text="@string/account_register_text"
             android:textColor="@color/normal_text_color"
