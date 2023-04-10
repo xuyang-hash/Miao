@@ -20,10 +20,12 @@
     <string name="account_register_illegal_username">用户名不合法 (4–32位, 由中文/字母/数字组成, 但不能是纯数字)</string>
     <string name="account_register_connect_failed">与服务器连接失败，请稍后重试</string>
     <string name="account_register_submit_failed">注册提交失败，请稍后重试</string>
-    <string name="account_register_success">注册成功</string>
+    <string name="account_register_success">注册成功, 是否现在去设置密保，以备找回密码</string>
+    <string name="account_register_set_confidentiality">去设置</string>
     <string name="account_username_is_empty">用户名为空</string>
     <string name="account_password_is_empty">密码为空</string>
     <string name="account_reset_forget_password">忘记密码</string>
+    <string name="common_dialog_title">提示</string>
     <string name="common_edit_pwd_error1">密码不符合要求，密码8–64位必须包含数字和字母</string>
     <string name="common_edit_pwd_error2">密码不符合要求，不能包含4位及以上的连续数字或字母，比如：1234或abcd</string>
     <string name="common_edit_pwd_error3">密码不符合要求，不能包含3位及以上的重叠数字或字母，比如：111或aaa</string>
@@ -33,6 +35,11 @@
     <string name="common_input_second_password">请再次输入密码</string>
     <string name="common_input_password_tips">密码长度8–64位,由数字,字母和符号组成</string>
     <string name="common_password_power">密码强度</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_confirm">确定</string>
+    <string name="common_save">保存</string>
+    <string name="common_save_no">不保存</string>
     <string name="common_success">成功</string>
+    <string name="common_talk_later">以后再说</string>
     <string name="common_unknown_error">未知错误</string>
 </resources>

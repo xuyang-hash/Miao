@@ -6,6 +6,7 @@ import com.meowing.loud.login.di.module.LoginModule;
 import com.meowing.loud.login.view.activity.LoginActivity;
 import com.meowing.loud.login.view.activity.RegisterActivity;
 import com.meowing.loud.login.view.fragment.InputPwdFragment;
+import com.meowing.loud.login.view.fragment.SetConfidentialityFragment;
 
 import dagger.Component;
 
@@ -18,4 +19,6 @@ public interface LoginComponent {
     void inject(RegisterActivity activity);
 
     void inject(InputPwdFragment activity);
+
+    void inject(SetConfidentialityFragment activity);
 }

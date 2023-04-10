@@ -6,17 +6,17 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseFragment;
 import com.meowing.loud.arms.base.code.AccountCode;
-import com.meowing.loud.arms.constant.ARouterConstant;
 import com.meowing.loud.arms.constant.EventConstant;
 import com.meowing.loud.arms.di.component.AppComponent;
+import com.meowing.loud.arms.dialog.BaseCustomDialog;
 import com.meowing.loud.arms.dialog.CSeeLoadingDialog;
 import com.meowing.loud.arms.entity.MessageWrap;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.ArmsUtils;
+import com.meowing.loud.arms.utils.DialogUtil;
 import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.arms.utils.ToastUtils;
 import com.meowing.loud.arms.utils.VerificationUtils;
@@ -31,8 +31,7 @@ import org.greenrobot.eventbus.EventBus;
 public class InputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding, LoginPresenter> implements LoginContract.View, View.OnClickListener {
 
     public static InputPwdFragment getInstance() {
-        InputPwdFragment inputPwdFragment = new InputPwdFragment();
-        return inputPwdFragment;
+        return new InputPwdFragment();
     }
 
     @Override
@@ -40,7 +39,7 @@ public class InputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding
         DaggerLoginComponent
                 .builder()
                 .appComponent(appComponent)
-                .loginModule(new LoginModule(this))//请将RegisterInputAccountModule()第一个首字母改为小写
+                .loginModule(new LoginModule(this))
                 .build()
                 .inject(this);
     }
@@ -125,9 +124,23 @@ public class InputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding
 
     @Override
     public void onRegisterResult() {
-        ToastUtils.showShort(getContext(), R.string.account_register_success);
-        EventBus.getDefault().post(new MessageWrap(EventConstant.ModuleLogin.ACCOUNT_REGISTER_SUCCESS,""));
-        ARouter.getInstance().build(ARouterConstant.LoginConstant.LOGIN_PAGE).navigation();
+        new DialogUtil(getContext(), getString(R.string.common_dialog_title),
+                getString(R.string.account_register_success),
+                getString(R.string.common_talk_later), getString(R.string.account_register_set_confidentiality), false)
+                .setDialogCallback(new BaseCustomDialog.DialogCallback() {
+                    @Override
+                    public void onConfirm() {
+                        boolean isSetConfidentiality = true;
+                        EventBus.getDefault().post(new MessageWrap(EventConstant.ModuleLogin.ACCOUNT_REGISTER_SUCCESS,isSetConfidentiality));
+                        BaseCustomDialog.DialogCallback.super.onConfirm();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        boolean isSetConfidentiality = false;
+                        EventBus.getDefault().post(new MessageWrap(EventConstant.ModuleLogin.ACCOUNT_REGISTER_SUCCESS,isSetConfidentiality));
+                    }
+                }).show();
     }
 
     @Override
