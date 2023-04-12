@@ -24,6 +24,15 @@
     <string name="account_register_set_confidentiality">去设置</string>
     <string name="account_username_is_empty">用户名为空</string>
     <string name="account_password_is_empty">密码为空</string>
+    <string name="account_set_confidentiality_answer_title1">答案1</string>
+    <string name="account_set_confidentiality_answer_title2">答案2</string>
+    <string name="account_set_confidentiality_answer_tip">请输入答案</string>
+    <string name="account_set_confidentiality_question_title1">* 问题1</string>
+    <string name="account_set_confidentiality_question_title2">问题2</string>
+    <string name="account_set_confidentiality_question_tip1">您父亲的名字</string>
+    <string name="account_set_confidentiality_question_tip2">您母亲的名字</string>
+    <string name="account_set_confidentiality_question_tip3">您高中班主任的名字</string>
+    <string name="account_set_confidentiality_question_tip4">自定义</string>
     <string name="account_reset_forget_password">忘记密码</string>
     <string name="common_dialog_title">提示</string>
     <string name="common_edit_pwd_error1">密码不符合要求，密码8–64位必须包含数字和字母</string>

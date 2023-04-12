@@ -57,12 +57,6 @@ public class InputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding
     }
 
     @Override
-    public void error(String msg) {
-        hideLoading();
-        ToastUtils.showShort(getContext(), msg);
-    }
-
-    @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.tv_input_pwd_submit) {
@@ -146,6 +140,12 @@ public class InputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding
     @Override
     public void setData(@Nullable Object data) {
 
+    }
+
+    @Override
+    public void error(String msg) {
+        hideLoading();
+        ToastUtils.showShort(getContext(), msg);
     }
 
     @Override

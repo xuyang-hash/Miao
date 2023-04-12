@@ -79,6 +79,7 @@ dependencies {
     api 'com.alibaba:arouter-compiler:1.1.4'
     api 'com.blankj:utilcodex:1.31.0'
     api 'com.github.li-xiaojun:XPopup:2.7.5'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
     implementation files('libs/mysql-connector-java-5.1.46-bin.jar')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

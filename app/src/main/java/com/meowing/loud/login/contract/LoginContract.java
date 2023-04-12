@@ -27,6 +27,10 @@ public interface LoginContract {
         default void onFindUserResult(boolean iSuccess, UserResp userResp, int errorId) {
 
         }
+
+        default void setQuestionAndAnswerResult() {
+
+        }
     }
 
     /**
@@ -63,5 +67,15 @@ public interface LoginContract {
          * @return  若查到了，则传值，若查不到，则传null
          */
         void findUser(String username, LoginModel.Listener listener);
+
+        /**
+         * 设置密保问题和答案
+         * @param username
+         * @param question1
+         * @param answer1
+         * @param question2
+         * @param answer2
+         */
+        void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2, LoginModel.Listener listener);
     }
 }

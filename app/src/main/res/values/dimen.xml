@@ -395,6 +395,7 @@
     <dimen name="dp_720">720dp</dimen>
 
     <!-- font size,you can add if there is no one -->
+    <dimen name="et_normal_height">52dp</dimen>
     <dimen name="title_bar_height">74dp</dimen>
     <dimen name="subtitle_size">16sp</dimen>
     <dimen name="title_size">18sp</dimen>
@@ -426,4 +427,5 @@
     <dimen name="permission_item_width">95dp</dimen>
     <dimen name="normal_switch_width">44dp</dimen>
     <dimen name="normal_switch_height">22dp</dimen>
+    <dimen name="small_icon_size">24dp</dimen>
 </resources>

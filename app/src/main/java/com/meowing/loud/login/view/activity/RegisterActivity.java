@@ -96,6 +96,9 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterLayoutBinding
                 ARouter.getInstance().build(ARouterConstant.LoginConstant.LOGIN_PAGE).navigation();
                 confirmToFinish();
             }
+        } else if (messageWrap.requestCode == EventConstant.ModuleLogin.ACCOUNT_REGISTER_SET_Q_AND_A_SUCCESS) {
+            ARouter.getInstance().build(ARouterConstant.LoginConstant.LOGIN_PAGE).navigation();
+            finish();
         }
     }
 

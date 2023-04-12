@@ -1,6 +1,7 @@
 package com.meowing.loud.login.model;
 
 import static com.blankj.utilcode.util.ThreadUtils.runOnUiThread;
+
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.arms.integration.IRepositoryManager;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.JDBCUtils;
+import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.login.contract.LoginContract;
 
 import java.sql.Connection;
@@ -217,6 +219,55 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         }.start();
     }
 
+    private static final int SET_Q_AND_A = 4;
+    @Override
+    public void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2, Listener listener) {
+        listenerHashMap.put(SET_Q_AND_A, listener);
+        new Thread() {
+            @Override
+            public void run() {
+                Connection connection = JDBCUtils.getConn();
+                String sql;
+                if (StringUtils.isStringNULL(answer2)) {
+                    sql = "update User set question1 = ?, answer1 = ? where username = ?";
+                } else {
+                    sql = "update User set question1 = ?, answer1 = ?, question2 = ?, answer2 = ? where username = ?";
+                }
+
+                PreparedStatement statement = null;
+                Message msg = new Message();
+                msg.what = SET_Q_AND_A;
+                try {
+                    statement = connection.prepareStatement(sql);
+                    statement.setString(1, question1);
+                    statement.setString(2, answer1);
+                    if (StringUtils.isStringNULL(answer2)) {
+                        statement.setString(3, username);
+                    } else {
+                        statement.setString(3, question2);
+                        statement.setString(4, answer2);
+                        statement.setString(5, username);
+                    }
+                    if (statement.executeUpdate() > 0) {
+                        msg.arg1 = SuccessCode.SUCCESS.getCode();
+                    } else {
+                        msg.arg1 = AccountCode.SET_QUESTION_AND_ANSWER_FAILED.getCode();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg.arg1 = AccountCode.SET_QUESTION_AND_ANSWER_CONNECT_ERROR.getCode();
+                } finally {
+                    try {
+                        connection.close();
+                        statement.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+    }
+
     public interface Listener {
         void onSuccess(Object obj);
 
@@ -229,23 +280,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Listener listener = null;
-                    switch (msg.what) {
-                        case OPT_LOGIN_USER:
-                            listener = listenerHashMap.get(OPT_LOGIN_USER);
-                            break;
-                        case OPT_LOGIN_ADMIN:
-                            listener = listenerHashMap.get(OPT_LOGIN_ADMIN);
-                            break;
-                        case OPT_REGISTER:
-                            listener = listenerHashMap.get(OPT_REGISTER);
-                            break;
-                        case OPT_FIND_USER:
-                            listener = listenerHashMap.get(OPT_FIND_USER);
-                            break;
-                        default:
-                            break;
-                    }
+                    Listener listener = listenerHashMap.get(msg.what);
                     if (listener != null) {
                         if (msg.arg1 >= 0) {
                             listener.onSuccess(msg.obj);

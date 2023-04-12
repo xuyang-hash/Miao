@@ -104,4 +104,27 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
             }
         });
     }
+
+    /**
+     * 设置密保问题
+     * @param question1
+     * @param answer1
+     * @param question2
+     * @param answer2
+     */
+    public void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2) {
+        mModel.setQuestionAndAnswer(username, question1, answer1, question2, answer2, new LoginModel.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.setQuestionAndAnswerResult();
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+            }
+        });
+    }
 }

@@ -15,6 +15,8 @@ public enum AccountCode implements BusinessCode {
     FIND_USER_IS_EMPTY(-4020, R.string.account_login_find_user_empty),
     FIND_USER_NO_EMPTY(-4021, R.string.account_login_find_user_no_empty),
     FIND_USER_CONNECT_FAILED(-4022, R.string.account_register_connect_failed),
+    SET_QUESTION_AND_ANSWER_FAILED(-4030, R.string.common_save_failed),
+    SET_QUESTION_AND_ANSWER_CONNECT_ERROR(-4031, R.string.account_set_confidentiality_connect_failed),
     ;
 
     private final int code;
