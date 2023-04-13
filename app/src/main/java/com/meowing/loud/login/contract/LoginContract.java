@@ -31,6 +31,10 @@ public interface LoginContract {
         default void setQuestionAndAnswerResult() {
 
         }
+
+        default void updatePassResult() {
+
+        }
     }
 
     /**
@@ -70,12 +74,19 @@ public interface LoginContract {
 
         /**
          * 设置密保问题和答案
-         * @param username
-         * @param question1
-         * @param answer1
-         * @param question2
-         * @param answer2
+         * @param username      用户名
+         * @param question1     密保问题1
+         * @param answer1       密保答案1
+         * @param question2     密保问题2
+         * @param answer2       密保答案2
          */
         void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2, LoginModel.Listener listener);
+
+        /**
+         * 更改密码
+         * @param username  用户名
+         * @param password  需要更新的密码
+         */
+        void updatePass(String username, String password, LoginModel.Listener listener);
     }
 }

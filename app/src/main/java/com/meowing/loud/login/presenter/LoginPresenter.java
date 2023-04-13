@@ -87,6 +87,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
     /**
      * 通过用户名去查找用户
+     *
      * @param username
      */
     public void findUser(String username) {
@@ -107,6 +108,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
     /**
      * 设置密保问题
+     *
      * @param question1
      * @param answer1
      * @param question2
@@ -118,6 +120,27 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();
                 mRootView.setQuestionAndAnswerResult();
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+            }
+        });
+    }
+
+    /**
+     * 更新用户密码
+     * @param username
+     * @param password
+     */
+    public void updatePass(String username, String password) {
+        mModel.updatePass(username, password, new LoginModel.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.updatePassResult();
             }
 
             @Override

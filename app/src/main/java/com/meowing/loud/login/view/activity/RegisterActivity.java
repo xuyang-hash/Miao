@@ -20,16 +20,16 @@ import com.meowing.loud.login.contract.LoginContract;
 import com.meowing.loud.login.di.component.DaggerLoginComponent;
 import com.meowing.loud.login.di.module.LoginModule;
 import com.meowing.loud.login.presenter.LoginPresenter;
-import com.meowing.loud.login.view.fragment.InputPwdFragment;
-import com.meowing.loud.login.view.fragment.SetConfidentialityFragment;
+import com.meowing.loud.login.view.fragment.RegisterInputPwdFragment;
+import com.meowing.loud.login.view.fragment.RegisterSetConfidentialityFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public class RegisterActivity extends BaseActivity<ActivityRegisterLayoutBinding, LoginPresenter> implements LoginContract.View {
 
-    private InputPwdFragment inputPwdFragment;
-    private SetConfidentialityFragment setConfidentialityFragment;
+    private RegisterInputPwdFragment registerInputPwdFragment;
+    private RegisterSetConfidentialityFragment registerSetConfidentialityFragment;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, RegisterActivity.class);
@@ -38,14 +38,14 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterLayoutBinding
 
     @Override
     public void confirmToFinish() {
-        if (inputPwdFragment.isHidden()) {
-            setConfidentialityFragment.onDestroy();
+        if (registerInputPwdFragment.isHidden()) {
+            registerSetConfidentialityFragment.onDestroy();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .show(inputPwdFragment)
-                    .replace(R.id.fl_container, inputPwdFragment)
+                    .show(registerInputPwdFragment)
+                    .replace(R.id.fl_container, registerInputPwdFragment)
                     .commit();
-            setConfidentialityFragment = SetConfidentialityFragment.getInstance();
+            registerSetConfidentialityFragment = RegisterSetConfidentialityFragment.getInstance();
         } else {
             finish();
         }
@@ -63,11 +63,11 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterLayoutBinding
 
     @Override
     public void initView() {
-        inputPwdFragment = InputPwdFragment.getInstance();
-        setConfidentialityFragment = SetConfidentialityFragment.getInstance();
+        registerInputPwdFragment = RegisterInputPwdFragment.getInstance();
+        registerSetConfidentialityFragment = RegisterSetConfidentialityFragment.getInstance();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fl_container, inputPwdFragment, "inputPwdFragment")
+                .add(R.id.fl_container, registerInputPwdFragment, "registerInputPwdFragment")
                 .commit();
     }
 
@@ -88,9 +88,9 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterLayoutBinding
                                 R.anim.slide_left_in,
                                 R.anim.slide_right_out
                         )
-                        .hide(setConfidentialityFragment)
-                        .add(R.id.fl_container, setConfidentialityFragment)
-                        .addToBackStack("setConfidentialityFragment")
+                        .hide(registerSetConfidentialityFragment)
+                        .add(R.id.fl_container, registerSetConfidentialityFragment)
+                        .addToBackStack("registerSetConfidentialityFragment")
                         .commit();
             } else {
                 ARouter.getInstance().build(ARouterConstant.LoginConstant.LOGIN_PAGE).navigation();

@@ -27,7 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-public class SetConfidentialityFragment extends BaseFragment<FragmentSetConfidentialityLayoutBinding, LoginPresenter> implements LoginContract.View {
+public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSetConfidentialityLayoutBinding, LoginPresenter> implements LoginContract.View {
 
     /**
      * 第一个问题的弹窗
@@ -41,8 +41,8 @@ public class SetConfidentialityFragment extends BaseFragment<FragmentSetConfiden
 
     private String username;
 
-    public static SetConfidentialityFragment getInstance() {
-        return new SetConfidentialityFragment();
+    public static RegisterSetConfidentialityFragment getInstance() {
+        return new RegisterSetConfidentialityFragment();
     }
 
     @Override

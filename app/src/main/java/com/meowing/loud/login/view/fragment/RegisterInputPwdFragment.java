@@ -28,10 +28,10 @@ import com.meowing.loud.login.presenter.LoginPresenter;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class InputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding, LoginPresenter> implements LoginContract.View, View.OnClickListener {
+public class RegisterInputPwdFragment extends BaseFragment<FragmentInputPwdLayoutBinding, LoginPresenter> implements LoginContract.View, View.OnClickListener {
 
-    public static InputPwdFragment getInstance() {
-        return new InputPwdFragment();
+    public static RegisterInputPwdFragment getInstance() {
+        return new RegisterInputPwdFragment();
     }
 
     @Override

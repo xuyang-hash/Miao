@@ -264,6 +264,45 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                         e.printStackTrace();
                     }
                 }
+                handler.handleMessage(msg);
+            }
+        }.start();
+    }
+
+    private static final int UPDATE_PASS = 4;
+    @Override
+    public void updatePass(String username, String password, Listener listener) {
+        listenerHashMap.put(UPDATE_PASS, listener);
+        new Thread() {
+            @Override
+            public void run() {
+                Connection connection = JDBCUtils.getConn();
+                String sql = "update User set password = ? where username = ?";
+
+                PreparedStatement statement = null;
+                Message msg = new Message();
+                msg.what = UPDATE_PASS;
+                try {
+                    statement = connection.prepareStatement(sql);
+                    statement.setString(1, password);
+                    statement.setString(2, username);
+                    if (statement.executeUpdate() > 0) {
+                        msg.arg1 = SuccessCode.SUCCESS.getCode();
+                    } else {
+                        msg.arg1 = AccountCode.UPDATE_PASS_FAILED.getCode();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg.arg1 = AccountCode.UPDATE_PASS_CONNECT_ERROR.getCode();
+                } finally {
+                    try {
+                        connection.close();
+                        statement.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                handler.handleMessage(msg);
             }
         }.start();
     }
