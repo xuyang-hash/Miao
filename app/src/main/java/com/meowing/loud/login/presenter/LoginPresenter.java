@@ -6,8 +6,10 @@ import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BasePresenter;
 import com.meowing.loud.arms.base.code.AccountCode;
 import com.meowing.loud.arms.base.code.ErrorCodeManager;
+import com.meowing.loud.arms.constant.MMKConstant;
 import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.arms.resp.UserResp;
+import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.login.contract.LoginContract;
 import com.meowing.loud.login.model.LoginModel;
 
@@ -74,6 +76,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
             @Override
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();
+                MeoSPUtil.putString(MMKConstant.LOGIN_USER_NAME, username);
                 mRootView.onRegisterResult();
             }
 

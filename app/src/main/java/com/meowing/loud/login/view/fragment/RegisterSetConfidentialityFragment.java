@@ -6,6 +6,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseFragment;
 import com.meowing.loud.arms.constant.EventConstant;
@@ -27,7 +30,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSetConfidentialityLayoutBinding, LoginPresenter> implements LoginContract.View {
+public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSetConfidentialityLayoutBinding, LoginPresenter> implements LoginContract.View, View.OnClickListener {
 
     /**
      * 第一个问题的弹窗
@@ -40,6 +43,11 @@ public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSet
     private ConditionTypeDialog conditionTypeDialog2;
 
     private String username;
+
+    /**
+     * 是否正在展示消息弹窗
+     */
+    private boolean isShow = false;
 
     public static RegisterSetConfidentialityFragment getInstance() {
         return new RegisterSetConfidentialityFragment();
@@ -58,8 +66,13 @@ public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSet
     @Override
     public void initView(View mView) {
         username = MeoSPUtil.getString(MMKConstant.LOGIN_USER_NAME);
+        binding.llNicknameInput.setVisibility(View.GONE);
         initConditionTypeDialog();
-        binding.tvSubmit.setOnClickListener(view -> submit());
+        binding.tvSetConfidentialitySubmit.setOnClickListener(this);
+        binding.tvQuestion1.setOnClickListener(this);
+        binding.ivConditionLimitStatus1.setOnClickListener(this);
+        binding.tvQuestion2.setOnClickListener(this);
+        binding.ivConditionLimitStatus2.setOnClickListener(this);
     }
 
     @Override
@@ -71,10 +84,27 @@ public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSet
 
     }
 
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if (id == R.id.tv_set_confidentiality_submit) {
+            submit();
+        } else if (id == R.id.tv_question1 || id == R.id.iv_condition_limit_status1) {
+            outConditionTypeDialog(true);
+        } else if (id == R.id.tv_question2 || id == R.id.iv_condition_limit_status2) {
+            outConditionTypeDialog(false);
+        }
+    }
+
     /**
      * 初始化问题选择弹窗
      */
     private void initConditionTypeDialog() {
+        ArrayList<String> questionList = new ArrayList<>();
+        questionList.add(getString(R.string.account_set_confidentiality_question_tip1));
+        questionList.add(getString(R.string.account_set_confidentiality_question_tip2));
+        questionList.add(getString(R.string.account_set_confidentiality_question_tip3));
+
         conditionTypeDialog1 = new ConditionTypeDialog(getContext());
         conditionTypeDialog1.setItemClickListener(new ConditionTypeDialog.ItemClickListener() {
             @Override
@@ -82,10 +112,6 @@ public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSet
                 binding.tvQuestion1.setText(s);
             }
         });
-        ArrayList<String> questionList = new ArrayList<>();
-        questionList.add(getString(R.string.account_set_confidentiality_question_tip1));
-        questionList.add(getString(R.string.account_set_confidentiality_question_tip2));
-        questionList.add(getString(R.string.account_set_confidentiality_question_tip3));
         conditionTypeDialog1.setList(questionList);
 
         conditionTypeDialog2 = new ConditionTypeDialog(getContext());
@@ -98,14 +124,84 @@ public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSet
         conditionTypeDialog2.setList(questionList);
     }
 
-    private void submit() {
-        String question1 = binding.tvQuestion1.getText().toString();
-        String answer1 = binding.etAnswer1.getText().toString();
-        String question2 = binding.tvQuestion1.getText().toString();
-        String answer2 = binding.etAnswer1.getText().toString();
+    /**
+     * 弹出选择弹窗
+     *
+     * @param isQuestion1 是否为第一个问题，若false，则为第二个问题
+     */
+    private void outConditionTypeDialog(boolean isQuestion1) {
+        new XPopup.Builder(getContext())
+                .atView(isQuestion1 ? binding.ivConditionLimitStatus1 : binding.ivConditionLimitStatus2)
+                .isCenterHorizontal(true)
+                .setPopupCallback(new XPopupCallback() {
+                    @Override
+                    public void onCreated(BasePopupView popupView) {
 
-        if (StringUtils.isStringNULL(answer1)) {
-            ToastUtils.showShort(getContext(), R.string.account_set_confidentiality_submit_error1);
+                    }
+
+                    @Override
+                    public void beforeShow(BasePopupView popupView) {
+
+                    }
+
+                    @Override
+                    public void onShow(BasePopupView popupView) {
+
+                    }
+
+                    @Override
+                    public void onDismiss(BasePopupView popupView) {
+
+                    }
+
+                    @Override
+                    public void beforeDismiss(BasePopupView popupView) {
+                        isShow = false;
+                        if (isQuestion1) {
+                            binding.ivConditionLimitStatus1.setImageResource(R.mipmap.ic_gray_down);
+                        } else {
+                            binding.ivConditionLimitStatus2.setImageResource(R.mipmap.ic_gray_down);
+                        }
+                    }
+
+                    @Override
+                    public boolean onBackPressed(BasePopupView popupView) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onKeyBoardStateChanged(BasePopupView popupView, int height) {
+
+                    }
+
+                    @Override
+                    public void onDrag(BasePopupView popupView, int value, float percent, boolean upOrLeft) {
+
+                    }
+
+                    @Override
+                    public void onClickOutside(BasePopupView popupView) {
+
+                    }
+                })
+                .asCustom(isQuestion1 ? conditionTypeDialog1 : conditionTypeDialog2)
+                .show();
+        isShow = !isShow;
+        if (isQuestion1) {
+            binding.ivConditionLimitStatus1.setImageResource(isShow ? R.mipmap.ic_gray_up : R.mipmap.ic_gray_down);
+        } else {
+            binding.ivConditionLimitStatus2.setImageResource(isShow ? R.mipmap.ic_gray_up : R.mipmap.ic_gray_down);
+        }
+    }
+
+    private void submit() {
+        String question1 = binding.tvQuestion1.getText().toString().trim();
+        String answer1 = binding.etAnswer1.getText().toString().trim();
+        String question2 = binding.tvQuestion2.getText().toString();
+        String answer2 = binding.etAnswer2.getText().toString();
+
+        if (StringUtils.isStringNULL(answer1) || StringUtils.isStringNULL(answer2)) {
+            ToastUtils.showShort(getContext(), R.string.account_set_confidentiality_submit_error3);
             return;
         }
 
@@ -119,7 +215,7 @@ public class RegisterSetConfidentialityFragment extends BaseFragment<FragmentSet
 
     @Override
     public void setQuestionAndAnswerResult() {
-        ToastUtils.showShort(getContext(), R.string.account_set_confidentiality_submit_error1);
+        ToastUtils.showShort(getContext(), R.string.account_set_confidentiality_submit_success);
         EventBus.getDefault().post(new MessageWrap(EventConstant.ModuleLogin.ACCOUNT_REGISTER_SET_Q_AND_A_SUCCESS, null));
     }
 

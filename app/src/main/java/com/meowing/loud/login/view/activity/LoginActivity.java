@@ -80,13 +80,13 @@ public class LoginActivity extends BaseActivity<ActivityLoginLayoutBinding, Logi
         if (id == R.id.tv_login) {
             login();
         } else if (id == R.id.tv_forget_password) {
-
+            ForgetPasswordActivity.start(this);
         } else if (id == R.id.tv_register) {
             RegisterActivity.start(this);
         } else if (id == R.id.cb_eye) {
             boolean afterState = !binding.cbEye.isSelected();
             binding.cbEye.setSelected(afterState);
-            setEditTextVisible(binding.etPassword, afterState);
+            setEditTextVisible(binding.etPassword, !afterState);
         }
     }
 

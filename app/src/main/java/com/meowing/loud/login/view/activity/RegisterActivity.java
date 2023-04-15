@@ -52,6 +52,12 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterLayoutBinding
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        confirmToFinish();
+    }
+
+    @Override
     public void setupActivityComponent(AppComponent appComponent) {
         DaggerLoginComponent
                 .builder()
@@ -88,7 +94,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterLayoutBinding
                                 R.anim.slide_left_in,
                                 R.anim.slide_right_out
                         )
-                        .hide(registerSetConfidentialityFragment)
+                        .hide(registerInputPwdFragment)
                         .add(R.id.fl_container, registerSetConfidentialityFragment)
                         .addToBackStack("registerSetConfidentialityFragment")
                         .commit();

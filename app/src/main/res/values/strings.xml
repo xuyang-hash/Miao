@@ -22,13 +22,18 @@
     <string name="account_register_submit_failed">注册提交失败，请稍后重试</string>
     <string name="account_register_success">注册成功, 是否现在去设置密保，以备找回密码</string>
     <string name="account_register_set_confidentiality">去设置</string>
+    <string name="account_reset_pwd_title">找回密码</string>
+    <string name="account_reset_pwd_mate_user_failed">用户名或密保错误</string>
+    <string name="account_reset_pwd_mate_user_success">匹配成功</string>
+    <string name="account_reset_pwd_mate_user_error">用户匹配异常，请稍后重试</string>
+    <string name="account_reset_pwd_success">修改密码成功</string>
     <string name="account_username_is_empty">用户名为空</string>
     <string name="account_password_is_empty">密码为空</string>
     <string name="account_set_confidentiality_answer_title1">密保答案1:</string>
     <string name="account_set_confidentiality_answer_title2">密保答案2:</string>
     <string name="account_set_confidentiality_answer_tip">请输入密保答案</string>
     <string name="account_set_confidentiality_question_title">密保问题:</string>
-    <string name="account_set_confidentiality_question_title1">* 密保问题1:</string>
+    <string name="account_set_confidentiality_question_title1">密保问题1:</string>
     <string name="account_set_confidentiality_question_title2">密保问题2:</string>
     <string name="account_set_confidentiality_question_tip1">您父亲的名字</string>
     <string name="account_set_confidentiality_question_tip2">您母亲的名字</string>
@@ -36,6 +41,8 @@
     <string name="account_set_confidentiality_question_tip4">自定义</string>
     <string name="account_set_confidentiality_submit_error1">必须首先设置第一个问题</string>
     <string name="account_set_confidentiality_submit_error2">两个问题不能相同</string>
+    <string name="account_set_confidentiality_submit_error3">答案不可为空</string>
+    <string name="account_set_confidentiality_submit_success">设置成功</string>
     <string name="account_set_confidentiality_connect_failed">与服务器连接失败，请稍后重试</string>
     <string name="account_reset_forget_password">忘记密码</string>
     <string name="common_dialog_title">提示</string>
@@ -47,6 +54,7 @@
     <string name="common_edit_pwd_error6">两次密码不一致</string>
     <string name="common_input_second_password">请再次输入密码</string>
     <string name="common_input_password_tips">密码长度8–64位,由数字,字母和符号组成</string>
+    <string name="common_next_tip">下一步</string>
     <string name="common_password_power">密码强度</string>
     <string name="common_cancel">取消</string>
     <string name="common_confirm">确定</string>

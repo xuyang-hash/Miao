@@ -25,6 +25,7 @@ import com.meowing.loud.arms.base.delegate.AppDelegate;
 import com.meowing.loud.arms.base.delegate.AppLifecycles;
 import com.meowing.loud.arms.di.component.AppComponent;
 import com.meowing.loud.arms.utils.ArmsUtils;
+import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.Preconditions;
 import com.meowing.loud.arms.widget.refresh.CommonRefreshFooter;
 import com.meowing.loud.arms.widget.refresh.CommonRefreshHeader;
@@ -202,6 +203,7 @@ public class BaseApplication extends Application implements App {
         }
         instance = this;
         ARouter.init(this);
+        MeoSPUtil.init(this);
         initSysConfig();
     }
 

@@ -97,8 +97,8 @@ public class RegisterInputPwdFragment extends BaseFragment<FragmentInputPwdLayou
             boolean afterState = !binding.cbEye1.isSelected();
             binding.cbEye1.setSelected(afterState);
             binding.cbEye2.setSelected(afterState);
-            setEditTextVisible(binding.etPassword1, afterState);
-            setEditTextVisible(binding.etPassword2, afterState);
+            setEditTextVisible(binding.etPassword1, !afterState);
+            setEditTextVisible(binding.etPassword2, !afterState);
         }
     }
 
