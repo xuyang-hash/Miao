@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_account_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_80"
+        android:paddingBottom="@dimen/dp_32"
+        android:background="@drawable/bg_green_grad"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_account_head"
+            android:layout_width="@dimen/dp_64"
+            android:layout_height="@dimen/dp_64"
+            android:layout_marginStart="@dimen/big_normal_margin"
+            android:src="@mipmap/ic_login_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_account_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_of_normal_margin"
+            android:layout_marginEnd="@dimen/half_of_normal_margin"
+            android:singleLine="true"
+            android:text="sssssss"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/iv_account_head"
+            app:layout_constraintRight_toLeftOf="@id/iv_account_setting"
+            app:layout_constraintTop_toTopOf="@id/iv_account_head"
+            app:layout_constraintBottom_toBottomOf="@id/iv_account_head"/>
+
+        <ImageView
+            android:id="@+id/iv_account_setting"
+            android:layout_width="@dimen/small_icon_size"
+            android:layout_height="@dimen/small_icon_size"
+            android:layout_marginEnd="@dimen/big_normal_margin"
+            android:background="@mipmap/common_settings_white"
+            app:layout_constraintBottom_toBottomOf="@id/iv_account_head"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_account_head" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

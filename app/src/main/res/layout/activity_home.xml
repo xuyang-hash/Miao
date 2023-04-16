@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/main_activity_bottom_menu_rl"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/main_activity_bottom_menu_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_65"
+            android:layout_below="@+id/line"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- 首页 -->
+
+            <com.meowing.loud.arms.widget.controls.ButtonCheck
+                android:id="@+id/bc_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:lines="1"
+                app:NormalBkg="@mipmap/ic_common_bottom_home_unsel"
+                app:RippleBtnEnable="true"
+                app:SelectedBkg="@mipmap/ic_common_bottom_home"
+                app:Text="@string/home_bottom_home_title"
+                app:TextNormalColor="@color/tran_black_30"
+                app:TextSelectedColor="@color/theme_color"
+                app:TextSize="@dimen/small_tips_size"
+                app:imageHeight="@dimen/dp_32"
+                app:imageWidth="@dimen/dp_32" />
+
+            <!-- 动态 -->
+
+            <com.meowing.loud.arms.widget.controls.ButtonCheck
+                android:id="@+id/bc_trend"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:lines="1"
+                app:NormalBkg="@mipmap/ic_common_bottom_trends_unsel"
+                app:RippleBtnEnable="true"
+                app:SelectedBkg="@mipmap/ic_common_bottom_trends"
+                app:Text="@string/home_bottom_trend_title"
+                app:TextNormalColor="@color/tran_black_30"
+                app:TextSelectedColor="@color/theme_color"
+                app:TextSize="@dimen/small_tips_size"
+                app:imageHeight="@dimen/dp_32"
+                app:imageWidth="@dimen/dp_32" />
+
+            <!-- 我的 -->
+            <com.meowing.loud.arms.widget.controls.ButtonCheck
+                android:id="@+id/bc_mine"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:lines="1"
+                app:NormalBkg="@mipmap/ic_common_bottom_mine_unsel"
+                app:RippleBtnEnable="true"
+                app:SelectedBkg="@mipmap/ic_common_bottom_mine"
+                app:Text="@string/home_bottom_mine_title"
+                app:TextNormalColor="@color/tran_black_30"
+                app:TextSelectedColor="@color/theme_color"
+                app:TextSize="@dimen/small_tips_size"
+                app:imageHeight="@dimen/dp_32"
+                app:imageWidth="@dimen/dp_32" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

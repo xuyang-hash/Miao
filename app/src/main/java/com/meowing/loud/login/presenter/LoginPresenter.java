@@ -6,6 +6,7 @@ import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BasePresenter;
 import com.meowing.loud.arms.base.code.AccountCode;
 import com.meowing.loud.arms.base.code.ErrorCodeManager;
+import com.meowing.loud.arms.constant.AppConstant;
 import com.meowing.loud.arms.constant.MMKConstant;
 import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.arms.resp.UserResp;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 @ActivityScope
 public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginContract.View> {
     private Application mApplication;
+
 
     @Inject
     public LoginPresenter(LoginContract.Model model, LoginContract.View view, Application application) {
@@ -38,6 +40,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                 @Override
                 public void onSuccess(Object obj) {
                     mRootView.hideLoading();
+                    MeoSPUtil.putString(MMKConstant.LOGIN_USER_NAME, username);
+                    MeoSPUtil.putInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_USER);
                     mRootView.onAccountLoginResult();
                 }
 
@@ -52,6 +56,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                 @Override
                 public void onSuccess(Object obj) {
                     mRootView.hideLoading();
+                    MeoSPUtil.putString(MMKConstant.LOGIN_USER_NAME, username);
+                    MeoSPUtil.putInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_ADMIN);
                     mRootView.onAccountLoginResult();
                 }
 

@@ -26,6 +26,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Binder;
@@ -39,6 +41,7 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -1102,6 +1105,12 @@ public class ArmsUtils {
             startDate.setDate(startDate.getDate() + 1);
             findLatestEffectiveDate(startDate,week);
         }
+    }
+
+    public static Bitmap toBitmapFromString(String imageString) {
+        byte[] image = Base64.decode(imageString, Base64.DEFAULT);
+        Bitmap decodeImg = BitmapFactory.decodeByteArray(image, 0, image.length);
+        return decodeImg;
     }
 
 }

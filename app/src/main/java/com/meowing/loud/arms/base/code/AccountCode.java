@@ -5,6 +5,7 @@ import com.meowing.loud.R;
 public enum AccountCode implements BusinessCode {
 
     UNKNOW_ERROR(-1, R.string.common_unknown_error),
+    CONNECT_FAILED(-2, R.string.common_connect_failed),
     USER_UNKNOWN_ERROR(-4000, R.string.account_login_unknown_error),
     LOGIN_USER_OR_PWD_ERROR(-4001, R.string.account_login_error_name_psw),
     LOGIN_USERNAME_NOT_EXIST(-4002, R.string.account_login_name_no_exist),
@@ -20,6 +21,10 @@ public enum AccountCode implements BusinessCode {
 
     UPDATE_PASS_FAILED(-4040, R.string.common_save_failed),
     UPDATE_PASS_CONNECT_ERROR(-4041, R.string.account_set_confidentiality_connect_failed),
+
+    UPDATE_HEAD_FAILED(-4051, R.string.music_good_add_failed),
+
+    UPDATE_MUSIC_GOOD_FAILED(-5001, R.string.music_good_add_failed)
     ;
 
     private final int code;

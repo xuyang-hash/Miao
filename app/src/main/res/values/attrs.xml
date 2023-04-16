@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="singleClick" format="boolean"/>
+    <attr name="imageWidth" format="dimension"/>
+    <attr name="imageHeight" format="dimension"/>
+
+    <declare-styleable name="ButtonCheck">
+        <attr name="Text" format="reference|string"/>
+        <attr name="bottomText" format="reference|string"/>
+        <attr name="rightText" format="reference|string"/>
+        <attr name="leftText" format="reference|string"/>
+        <attr name="TextNormalColor" format="reference|color" />
+        <attr name="TextSelectedColor" format="reference|color" />
+        <attr name="BtnValue" format="integer" />
+        <attr name="TextSize" format="dimension" />
+        <attr name="NormalBkg" format="reference|color" />
+        <attr name="SelectedBkg" format="reference|color" />
+        <attr name="rightTextLeftPadding" format="dimension"/>
+        <attr name="leftTextRightPadding" format="dimension"/>
+        <attr name="bottomTextTopPadding" format="dimension"/>
+        <attr name="contentPaddingTop"/>
+        <attr name="contentPaddingBottom"/>
+        <attr name="contentPaddingStart"/>
+        <attr name="contentPaddingEnd"/>
+        <attr name="android:text" />
+        <attr name="DefaultClickable" format="boolean"/>
+        <attr name="RippleRes" format="reference|color"/>
+        <attr name="android:lines" format="integer"/>
+        <attr name="RippleBtnEnable" format="boolean"/>
+        <attr name="singleClick"/>
+        <attr name="imageWidth"/>
+        <attr name="imageHeight"/>
+    </declare-styleable>
+    <declare-styleable name="CommonItemWidget">
+        <attr name="title" format="string" />
+        <attr name="switchVisible" format="boolean" />
+        <attr name="subTitle" format="string" />
+        <attr name="subTitleColor" format="color" />
+        <attr name="navigatorVisible" format="boolean" />
+        <attr name="needBind" format="boolean" />
+        <attr name="tipsColor" format="color" />
+        <attr name="tips" format="string" />
+        <attr name="headerIconVisible" format="boolean" />
+        <attr name="headerIcon" format="reference" />
+        <attr name="titleColor" format="color" />
+        <attr name="iconColor" format="color" />
+        <attr name="android:textStyle"/>
+        <attr name="fkTextSize" format="dimension"/>
+    </declare-styleable>
+</resources>

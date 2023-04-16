@@ -415,6 +415,9 @@
     <dimen name="little_normal_margin">16dp</dimen>
     <dimen name="normal_margin">18dp</dimen>
     <dimen name="big_normal_margin">24dp</dimen>
+    <dimen name="static_image_head_view_size">40dp</dimen>
+    <dimen name="static_image_music_view_size">70dp</dimen>
+    <dimen name="normal_head_size">20dp</dimen>
     <dimen name="normal_left_right_margin">15dp</dimen>
     <dimen name="default_radius">8dp</dimen>
     <dimen name="small_radius">5dp</dimen>

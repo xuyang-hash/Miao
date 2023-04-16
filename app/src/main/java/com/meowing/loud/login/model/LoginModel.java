@@ -35,8 +35,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         this.listenerHashMap = new HashMap<>();
     }
 
-    private static final int OPT_LOGIN_USER = 0;
-
     @Override
     public void userLogin(String account, String password, Listener listener) {
 
@@ -82,8 +80,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         }.start();
     }
 
-    private static final int OPT_LOGIN_ADMIN = 1;
-
     @Override
     public void adminLogin(String account, String password, Listener listener) {
         listenerHashMap.put(OPT_LOGIN_ADMIN, listener);
@@ -128,8 +124,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         }.start();
     }
 
-    private static final int OPT_REGISTER = 2;
-
     @Override
     public void registerUser(String username, String password, Listener listener) {
         listenerHashMap.put(OPT_REGISTER, listener);
@@ -167,8 +161,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
             }
         }.start();
     }
-
-    private static final int OPT_FIND_USER = 3;
 
     @Override
     public void findUser(String username, Listener listener) {
@@ -218,8 +210,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
             }
         }.start();
     }
-
-    private static final int SET_Q_AND_A = 4;
     @Override
     public void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2, Listener listener) {
         listenerHashMap.put(SET_Q_AND_A, listener);
@@ -269,7 +259,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         }.start();
     }
 
-    private static final int UPDATE_PASS = 4;
     @Override
     public void updatePass(String username, String password, Listener listener) {
         listenerHashMap.put(UPDATE_PASS, listener);
@@ -305,12 +294,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 handler.handleMessage(msg);
             }
         }.start();
-    }
-
-    public interface Listener {
-        void onSuccess(Object obj);
-
-        void onFailed(int errorId);
     }
 
     @SuppressLint("HandlerLeak")

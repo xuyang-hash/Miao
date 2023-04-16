@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/half_of_normal_margin"
+    android:paddingTop="@dimen/normal_margin"
+    android:paddingEnd="@dimen/half_of_normal_padding"
+    android:paddingBottom="@dimen/small_margin">
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/sml_device"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ry_music_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/ry_music_list_item_layout" />
+        </LinearLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

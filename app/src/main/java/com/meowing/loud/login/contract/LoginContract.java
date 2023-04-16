@@ -3,7 +3,6 @@ package com.meowing.loud.login.contract;
 import com.meowing.loud.arms.base.IModel;
 import com.meowing.loud.arms.base.IView;
 import com.meowing.loud.arms.resp.UserResp;
-import com.meowing.loud.login.model.LoginModel;
 
 public interface LoginContract {
     /**
@@ -41,13 +40,18 @@ public interface LoginContract {
      * Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
      */
     interface Model extends IModel {
+
+        int OPT_LOGIN_USER = 0;
+
         /**
          * 用户登录
          * @param account   用户名
          * @param pwd       密码
          * @param listener
          */
-        void userLogin(String account, String pwd, LoginModel.Listener listener);
+        void userLogin(String account, String pwd, Listener listener);
+
+        int OPT_LOGIN_ADMIN = 1;
 
         /**
          * 管理员登录
@@ -55,7 +59,9 @@ public interface LoginContract {
          * @param pwd       密码
          * @param listener
          */
-        void adminLogin(String account, String pwd, LoginModel.Listener listener);
+        void adminLogin(String account, String pwd, Listener listener);
+
+        int OPT_REGISTER = 2;
 
         /**
          * 注册账号
@@ -63,14 +69,18 @@ public interface LoginContract {
          * @param password  密码
          * @param listener
          */
-        void registerUser(String username, String password, LoginModel.Listener listener);
+        void registerUser(String username, String password, Listener listener);
+
+        int OPT_FIND_USER = 3;
 
         /**
          * 根据用户名去查找用户信息
          * @param username  用户名
          * @return  若查到了，则传值，若查不到，则传null
          */
-        void findUser(String username, LoginModel.Listener listener);
+        void findUser(String username, Listener listener);
+
+        int SET_Q_AND_A = 4;
 
         /**
          * 设置密保问题和答案
@@ -80,13 +90,21 @@ public interface LoginContract {
          * @param question2     密保问题2
          * @param answer2       密保答案2
          */
-        void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2, LoginModel.Listener listener);
+        void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2, Listener listener);
+
+        int UPDATE_PASS = 5;
 
         /**
          * 更改密码
          * @param username  用户名
          * @param password  需要更新的密码
          */
-        void updatePass(String username, String password, LoginModel.Listener listener);
+        void updatePass(String username, String password, Listener listener);
+
+        public interface Listener {
+            void onSuccess(Object obj);
+
+            void onFailed(int errorId);
+        }
     }
 }

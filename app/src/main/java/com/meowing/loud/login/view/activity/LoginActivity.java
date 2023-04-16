@@ -14,6 +14,7 @@ import com.meowing.loud.arms.dialog.CSeeLoadingDialog;
 import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.arms.utils.ToastUtils;
 import com.meowing.loud.databinding.ActivityLoginLayoutBinding;
+import com.meowing.loud.home.view.activity.HomeActivity;
 import com.meowing.loud.login.contract.LoginContract;
 import com.meowing.loud.login.di.component.DaggerLoginComponent;
 import com.meowing.loud.login.di.module.LoginModule;
@@ -113,6 +114,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginLayoutBinding, Logi
 
     private void goMain() {
         ToastUtils.showShort(this, R.string.account_login_success);
+        navigator(HomeActivity.class, true);
     }
 
     @Override
