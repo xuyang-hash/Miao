@@ -30,6 +30,7 @@
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginTop="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
+        android:visibility="gone"
         android:background="@drawable/bg_r_8_soild_white"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/v_bottom_bind_title">

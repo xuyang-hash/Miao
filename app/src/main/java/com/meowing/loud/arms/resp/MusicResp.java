@@ -16,6 +16,11 @@ public class MusicResp {
     private String name;
 
     /**
+     * 音乐播放url
+     */
+    private String url;
+
+    /**
      * 音乐发布日期
      */
     private Date upDate;
@@ -50,9 +55,10 @@ public class MusicResp {
      */
     private List<String> googUserList;
 
-    public MusicResp(int id, String name, Date upDate, String headString, String username, String userHeadString, String googUsers, int good_num) {
+    public MusicResp(int id, String name, String url, Date upDate, String headString, String username, String userHeadString, String googUsers, int good_num) {
         this.id = id;
         this.name = name;
+        this.url = url;
         this.upDate = upDate;
         this.headString = headString;
         this.username = username;
@@ -78,6 +84,14 @@ public class MusicResp {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Date getUpDate() {

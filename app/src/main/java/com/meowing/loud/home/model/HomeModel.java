@@ -44,7 +44,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
             public void run() {
                 List<MusicResp> musicRespList = new ArrayList<>();
                 Connection connection = JDBCUtils.getConn();
-                String sql = "select * from Music order by mpf desc";
+                String sql = "select * from Music";
                 PreparedStatement ps = null;
                 ResultSet resultSet = null;
                 Message msg = new Message();
@@ -56,12 +56,13 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                     while (resultSet.next()) {
                         MusicResp musicResp = new MusicResp(resultSet.getInt(1),//id
                                 resultSet.getString(2),//name
-                                resultSet.getDate(3),//upDate
-                                resultSet.getString(4),//headString
-                                resultSet.getString(5),//username
-                                resultSet.getString(6),//userHeadString
-                                resultSet.getString(7),//goodUsers
-                                resultSet.getInt(8) //googNums
+                                resultSet.getString(3),// url
+                                resultSet.getDate(4),//upDate
+                                resultSet.getString(5),//headString
+                                resultSet.getString(6),//username
+                                resultSet.getString(7),//userHeadString
+                                resultSet.getString(8),//goodUsers
+                                resultSet.getInt(9) //googNums
                         );
                         musicRespList.add(musicResp);
                     }

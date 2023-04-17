@@ -7,6 +7,7 @@ import com.meowing.loud.arms.base.BasePresenter;
 import com.meowing.loud.arms.base.code.AccountCode;
 import com.meowing.loud.arms.base.code.ErrorCodeManager;
 import com.meowing.loud.arms.constant.MMKConstant;
+import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
@@ -14,6 +15,7 @@ import com.meowing.loud.me.contract.UserContract;
 
 import javax.inject.Inject;
 
+@ActivityScope
 public class UserPresenter extends BasePresenter<UserContract.Model, UserContract.View> {
 
     private Application mApplication;
