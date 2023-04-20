@@ -6,6 +6,13 @@ import com.meowing.loud.arms.base.IView;
 public interface PlayContract {
     interface View extends IView {
 
+        /**
+         * 获取音乐url结果
+         * @param url
+         */
+        default void findMusicUrlResult(String url) {
+
+        }
     }
 
     interface Model extends IModel {

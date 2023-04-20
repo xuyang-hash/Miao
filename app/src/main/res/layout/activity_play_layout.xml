@@ -9,60 +9,62 @@
         android:id="@+id/tv_music_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/big_normal_margin"
+        android:layout_marginTop="@dimen/big_normal_margin"
+        android:layout_marginEnd="@dimen/big_normal_margin"
+        android:singleLine="true"
         android:text="我是歌曲名"
         android:textColor="@color/white"
         android:textSize="@dimen/big_title_size"
-        android:singleLine="true"
-        android:layout_marginTop="@dimen/big_normal_margin"
-        android:layout_marginStart="@dimen/big_normal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        android:layout_marginEnd="@dimen/big_normal_margin"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_music_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
         android:text="我是作者"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size"
-        android:layout_marginTop="@dimen/small_margin"
-        app:layout_constraintTop_toBottomOf="@id/tv_music_name"
-        app:layout_constraintEnd_toEndOf="@id/tv_music_name"/>
+        app:layout_constraintEnd_toEndOf="@id/tv_music_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_music_name" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_music_play"
         android:layout_width="300dp"
         android:layout_height="300dp"
+        android:layout_marginTop="@dimen/dp_110"
         app:cardCornerRadius="130dp"
         app:cardUseCompatPadding="true"
-        android:layout_marginTop="@dimen/dp_110"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
-            android:layout_centerInParent="true"
             android:id="@+id/iv_player_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/ic_login_logo"/>
+            android:layout_centerInParent="true"
+            android:background="@mipmap/ic_login_logo" />
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:id="@+id/ll_seek"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
         android:layout_marginBottom="@dimen/normal_margin"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/rl_control">
+
         <SeekBar
             android:id="@+id/sb_play_seek"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <RelativeLayout

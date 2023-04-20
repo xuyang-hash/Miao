@@ -4,11 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meowing.loud.arms.utils.StringUtils;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicResp {
+public class MusicResp implements Serializable {
     private int id;
     /**
      * 音乐名称

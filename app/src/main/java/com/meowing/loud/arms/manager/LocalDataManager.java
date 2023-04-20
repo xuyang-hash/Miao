@@ -4,6 +4,7 @@ import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.arms.resp.UserResp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LocalDataManager {
@@ -15,8 +16,14 @@ public class LocalDataManager {
 
     private List<MusicResp> musicRespList;
 
+    private List<Integer> allMusicIdList;
+
+    private HashMap<Integer, String> musicUrlMap;
+
     public LocalDataManager() {
         this.musicRespList = new ArrayList<>();
+        this.allMusicIdList = new ArrayList<>();
+        this.musicUrlMap = new HashMap<>();
     }
 
     public synchronized static LocalDataManager getInstance() {
@@ -43,11 +50,46 @@ public class LocalDataManager {
         this.musicRespList = musicRespList;
     }
 
+    public List<Integer> getAllMusicIdList() {
+        return allMusicIdList;
+    }
+
+    public void setAllMusicIdList(List<Integer> allMusicIdList) {
+        this.allMusicIdList = allMusicIdList;
+    }
+
+    public void addMusicUrl(int musicId, String musicUrl) {
+        if (musicUrlMap == null) {
+            musicUrlMap = new HashMap<>();
+        }
+        musicUrlMap.put(musicId, musicUrl);
+    }
+
+    public String getMusicUrl(int musicId) {
+        if (musicUrlMap != null) {
+            if (musicUrlMap.containsKey(musicId)) {
+                return musicUrlMap.get(musicId);
+            }
+        }
+        return null;
+    }
+
     /**
      * 清除所有缓存数据 包括登录状态
      * @param isClearLoginStatus    是否清除登录状态
      */
     public void clear(boolean isClearLoginStatus) {
+        if (musicRespList != null) {
+            musicRespList.clear();
+        }
+
+        if (allMusicIdList != null) {
+            allMusicIdList.clear();
+        }
+
+        if (musicUrlMap != null) {
+            musicUrlMap.clear();
+        }
         userResp = null;
     }
 }

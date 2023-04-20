@@ -80,4 +80,9 @@
     <string name="music_good_add_success">点赞成功</string>
     <string name="music_good_cancel_failed">取消点赞失败，请稍后重试</string>
     <string name="music_good_cancel_success">取消点赞成功</string>
+    <string name="play_change_music_no_more_tips">没有更多歌曲了哟</string>
+    <string name="play_download_success">下载成功</string>
+    <string name="play_download_failed">下载失败</string>
+    <string name="play_download_ing">下载中...</string>
+    <string name="play_download_exist_tip">下载列表已经存在</string>
 </resources>
