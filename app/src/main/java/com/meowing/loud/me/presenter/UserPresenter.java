@@ -65,4 +65,26 @@ public class UserPresenter extends BasePresenter<UserContract.Model, UserContrac
             });
         }
     }
+
+    /**
+     * 查找所有我的音乐
+     */
+    public void findAllMineMusic() {
+        String username = MeoSPUtil.getString(MMKConstant.LOGIN_USER_NAME);
+        if (!StringUtils.isStringNULL(username)) {
+            mModel.findAllMineMusic(username, new UserContract.Model.Listener() {
+                @Override
+                public void onSuccess(Object obj) {
+                    mRootView.hideLoading();
+                    mRootView.findAllMineMusicResult(true);
+                }
+
+                @Override
+                public void onFailed(int errorId) {
+                    mRootView.hideLoading();
+                    mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+                }
+            });
+        }
+    }
 }

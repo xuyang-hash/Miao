@@ -22,9 +22,11 @@ public enum AccountCode implements BusinessCode {
     UPDATE_PASS_FAILED(-4040, R.string.common_save_failed),
     UPDATE_PASS_CONNECT_ERROR(-4041, R.string.account_set_confidentiality_connect_failed),
 
-    UPDATE_HEAD_FAILED(-4051, R.string.music_good_add_failed),
+    UPDATE_HEAD_FAILED(-4051, R.string.me_account_setting_profile_photo_failed),
 
-    UPDATE_MUSIC_GOOD_FAILED(-5001, R.string.music_good_add_failed)
+    UPDATE_MUSIC_GOOD_FAILED(-5001, R.string.music_good_add_failed),
+
+    UPDATE_MUSIC_LIKE_FAILED(-5011, R.string.music_like_add_failed),
     ;
 
     private final int code;

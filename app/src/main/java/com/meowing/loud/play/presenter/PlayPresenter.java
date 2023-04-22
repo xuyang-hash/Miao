@@ -12,7 +12,6 @@ import com.meowing.loud.arms.manager.LocalDataManager;
 import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
-import com.meowing.loud.home.contract.HomeContract;
 import com.meowing.loud.play.contract.PlayContract;
 
 import javax.inject.Inject;
@@ -52,7 +51,24 @@ public class PlayPresenter extends BasePresenter<PlayContract.Model, PlayContrac
      * @param isAdd
      */
     public void updateMusicLike(MusicResp resp, boolean isAdd) {
+        String username = MeoSPUtil.getString(MMKConstant.LOGIN_USER_NAME);
+        mModel.updateMusicGood(username, resp, new PlayContract.Model.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.updateMusicGoodResult(true, resp, isAdd);
+            }
 
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                if (errorId == AccountCode.UPDATE_MUSIC_GOOD_FAILED.getCode()) {
+                    mRootView.updateMusicGoodResult(false, resp, isAdd);
+                } else {
+                    mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+                }
+            }
+        });
     }
 
     /**
@@ -63,7 +79,7 @@ public class PlayPresenter extends BasePresenter<PlayContract.Model, PlayContrac
      */
     public void updateMusicGood(MusicResp resp, boolean isAdd) {
         String username = MeoSPUtil.getString(MMKConstant.LOGIN_USER_NAME);
-        mModel.updateMusicGood(username, resp, new HomeContract.Model.Listener() {
+        mModel.updateMusicGood(username, resp, new PlayContract.Model.Listener() {
             @Override
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();

@@ -9,7 +9,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,11 +21,12 @@ import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseActivity;
+import com.meowing.loud.arms.constant.AppConstant;
 import com.meowing.loud.arms.di.component.AppComponent;
+import com.meowing.loud.arms.manager.LocalDataManager;
 import com.meowing.loud.arms.manager.play.IPlayerController;
 import com.meowing.loud.arms.manager.play.IPlayerViewController;
 import com.meowing.loud.arms.manager.play.PlayService;
@@ -37,15 +37,14 @@ import com.meowing.loud.databinding.ActivityPlayLayoutBinding;
 import com.meowing.loud.play.contract.PlayContract;
 import com.meowing.loud.play.presenter.PlayPresenter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPresenter> implements PlayContract.View {
 
-    private static final int LAST_MUSIC = -1;
-    private static final int NEXT_MUSIC = 1;
-    private static final String TAG = "Player";
+    private static final String TAG = "PlayerActivity";
 
     private ObjectAnimator mRotation;
 
@@ -79,12 +78,10 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         }
     });
 
-    public static void start(Context context, ArrayList<MusicResp> musicList, int mPosition) {
-        Bundle b = new Bundle();
-        b.putSerializable("musicList", (Serializable) musicList);
-        b.putInt("position", mPosition);
+    public static void start(Context context, int musicType, int mPosition) {
         Intent intent = new Intent(context, PlayActivity.class);
-        intent.putExtras(b);
+        intent.putExtra("position", mPosition);
+        intent.putExtra("musicType", musicType);
         context.startActivity(intent);
     }
 
@@ -95,12 +92,14 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
 
     @Override
     public void initView() {
-        musicList = (List<MusicResp>) getIntent().getSerializableExtra("musicList");
-        mPosition = getIntent().getIntExtra("position", 0);
-        musicInfo = musicList.get(mPosition);
+        initMusicInfo();
         if (musicInfo != null) {
             binding.tvMusicName.setText(musicInfo.getName());
             binding.tvMusicUsername.setText(musicInfo.getUsername());
+            binding.tvEditGood.setText(musicInfo.getGoodNum() + "");
+            binding.ivEditGood.setSelected(musicInfo.isGoodContainMe());
+            binding.tvEditLike.setText(musicInfo.getLikeNum() + "");
+            binding.ivEditLike.setSelected(musicInfo.isLikeContainMe());
         }
         if (mRotation != null) {
             mRotation.start();
@@ -114,7 +113,7 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         mRotation.setInterpolator(new LinearInterpolator());
         mRotation.start();
         //初始化控件的点击事件
-        initEventListener();
+        initListener();
         initService();
         initBindService();
     }
@@ -129,9 +128,34 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     }
 
     /**
+     * 初始化音乐数据
+     */
+    private void initMusicInfo() {
+        switch (getIntent().getIntExtra("musicType", 0)) {
+            case AppConstant.MUSIC_TYPE_PASS:
+                musicList = LocalDataManager.getInstance().getAllPassMusicList();
+                break;
+            case AppConstant.MUSIC_TYPE_WAIT:
+                musicList = LocalDataManager.getInstance().getAllWaitMusicList();
+                break;
+            case AppConstant.MUSIC_TYPE_REFUSE:
+                musicList = LocalDataManager.getInstance().getAllRefuseMusicList();
+                break;
+            case AppConstant.MUSIC_TYPE_LIKE:
+                musicList = LocalDataManager.getInstance().getAllLikeMusicList();
+                break;
+            case AppConstant.MUSIC_TYPE_MINE:
+                musicList = LocalDataManager.getInstance().getAllMineMusicList();
+                break;
+        }
+        mPosition = getIntent().getIntExtra("position", 0);
+        musicInfo = musicList.get(mPosition);
+    }
+
+    /**
      * 设置监听
      */
-    private void initEventListener() {
+    private void initListener() {
         binding.sbPlaySeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -245,6 +269,38 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     }
 
     @Override
+    public void updateMusicGoodResult(boolean isSuccess, MusicResp resp, boolean isAdd) {
+        if (isSuccess) {
+            ToastUtils.showShort(this, isAdd ? R.string.music_good_add_success : R.string.music_good_cancel_success);
+            if (isAdd) {
+                musicInfo.addGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+            } else {
+                musicInfo.delGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+            }
+            binding.tvEditGood.setText(musicInfo.getGoodNum() + "");
+        } else {
+            ToastUtils.showShort(this, isAdd ? R.string.music_good_add_failed : R.string.music_good_cancel_failed);
+            binding.ivEditGood.setSelected(!binding.ivEditGood.isSelected());
+        }
+    }
+
+    @Override
+    public void updateMusicLikeResult(boolean isSuccess, MusicResp resp, boolean isLike) {
+        if (isSuccess) {
+            ToastUtils.showShort(this, isLike ? R.string.music_like_add_success : R.string.music_like_cancel_success);
+            if (isLike) {
+                musicInfo.addGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+            } else {
+                musicInfo.delGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+            }
+            binding.tvEditLike.setText(musicInfo.getGoodNum() + "");
+        } else {
+            ToastUtils.showShort(this, isLike ? R.string.music_like_add_failed : R.string.music_like_cancel_failed);
+            binding.ivEditLike.setSelected(!binding.ivEditLike.isSelected());
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mPlayerConnection != null) {
@@ -254,7 +310,6 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     }
 
     private IPlayerViewController mPlayerViewController = new IPlayerViewController() {
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public void onPlayStateChange(int state) {
             switch (state) {
@@ -289,7 +344,7 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     private class PlayerConnection implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i(TAG, "->onServiceConnected");
+            Timber.tag(TAG).i("->onServiceConnected");
             mController = (IPlayerController) service;
             //服务完成绑定后将UI控制器传到逻辑层
             mController.registerIPlayViewController(mPlayerViewController);
@@ -297,7 +352,7 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            Log.i(TAG, "->onServiceDisconnected");
+            Timber.tag(TAG).i("->onServiceDisconnected");
             mController = null;
         }
     }

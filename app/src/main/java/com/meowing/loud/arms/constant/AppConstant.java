@@ -8,6 +8,31 @@ public class AppConstant {
 
     public static final int ROLE_TYPE_ADMIN = 2;
 
+    /**
+     * 音乐类型之待审核
+     */
+    public static final int MUSIC_TYPE_WAIT = 0;
+
+    /**
+     * 音乐类型之审核通过
+     */
+    public static final int MUSIC_TYPE_PASS = 1;
+
+    /**
+     * 音乐类型之审核不通过
+     */
+    public static final int MUSIC_TYPE_REFUSE = -1;
+
+    /**
+     * 音乐类型之收藏的
+     */
+    public static final int MUSIC_TYPE_LIKE = 2;
+
+    /**
+     * 音乐类型之我的
+     */
+    public static final int MUSIC_TYPE_MINE= 3;
+
     public interface Switch {
         int Close = 0;
         int Open = 1;

@@ -30,10 +30,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.LocaleList;
 import android.os.Process;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -61,18 +63,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.meowing.loud.R;
 import com.meowing.loud.arms.base.App;
 import com.meowing.loud.arms.di.component.AppComponent;
 import com.meowing.loud.arms.integration.AppManager;
-import com.meowing.loud.R;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * ================================================
@@ -1033,84 +1034,23 @@ public class ArmsUtils {
         return StringUtils.bytes2HexString(targets);
     }
 
-    /**
-     * 格式化mac地址
-     *
-     * @param mac 未带冒号的mac地址
-     * @return
-     */
-    public static String formatMacAddress(String mac) {
-        if (mac == null) {
-            return null;
-        }
-
-        StringBuffer stringBuffer = new StringBuffer();
-        char[] chars = mac.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            stringBuffer.append(chars[i]);
-            if (i % 2 == 1 && i != chars.length - 1) {
-                stringBuffer.append(":");
-            }
-        }
-        return stringBuffer.toString();
-    }
-
-    /**
-     * 判断结束时间是否在开始时间之后一年内
-     * @param startDate
-     * @param endDate
-     * @return
-     */
-    public static boolean checkDateInOneYear(Date startDate, Date endDate){
-        if (startDate.getTime() < endDate.getTime()) {
-            //满足结束时间大于开始时间才开始下一阶段判断
-            //将开始时间往后延一年，在比较
-            Date date = new Date(startDate.getTime());
-            date.setYear(startDate.getYear() + 1);
-            if(date.getTime() < endDate.getTime()){
-                //如果还比结束时间迟，那么说明结束时间在开始时间一年外
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * 获取更改时区后的时间
-     * @param date 时间
-     * @param oldZone 旧时区
-     * @param newZone 新时区
-     * @return 时间
-     */
-    public static Date changeTimeZone(Date date, TimeZone oldZone, TimeZone newZone)
-    {
-        Date dateTmp = null;
-        if (date != null)
-        {
-            int timeOffset = oldZone.getRawOffset() - newZone.getRawOffset();
-            dateTmp = new Date(date.getTime() - timeOffset);
-        }
-        return dateTmp;
-    }
-
-    /**
-     * 找到从传入日期开始，在选定周期内的最近生效日期
-     * @param startDate 开始日期
-     * @param week 选定周期列表
-     */
-    public static void findLatestEffectiveDate(Date startDate, String week){
-        int day = startDate.getDay();
-        if(!StringUtils.containsIgnoreCase(week,String.valueOf(day))){
-            //如果当前日期直接不在选定周期内，则增加一天后递归
-            startDate.setDate(startDate.getDate() + 1);
-            findLatestEffectiveDate(startDate,week);
-        }
-    }
-
     public static Bitmap toBitmapFromString(String imageString) {
         byte[] image = Base64.decode(imageString, Base64.DEFAULT);
         Bitmap decodeImg = BitmapFactory.decodeByteArray(image, 0, image.length);
         return decodeImg;
+    }
+
+    public static String toImageStringFromUri(Context context, Uri uri) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

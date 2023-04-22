@@ -2,6 +2,7 @@ package com.meowing.loud.home.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
@@ -12,32 +13,59 @@ import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseActivity;
 import com.meowing.loud.arms.constant.ARouterConstant;
 import com.meowing.loud.arms.constant.AppConstant;
-import com.meowing.loud.arms.widget.controls.ButtonCheck;
+import com.meowing.loud.arms.constant.MMKConstant;
+import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.databinding.ActivityHomeBinding;
 import com.meowing.loud.home.presenter.HomePresenter;
+import com.meowing.loud.home.view.fragment.CollectFragment;
 import com.meowing.loud.home.view.fragment.HomeFragment;
+import com.meowing.loud.home.view.fragment.RefuseFragment;
+import com.meowing.loud.home.view.fragment.WaitMusicFragment;
 import com.meowing.loud.me.view.Fragment.UserFragment;
-import com.meowing.loud.trends.view.Fragment.TrendFragment;
 import com.roughike.bottombar.OnTabSelectListener;
 
 @Route(path = ARouterConstant.HomeConstant.HOME_PAGE)
 public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresenter> implements OnTabSelectListener {
     public static final int HOME = 0;
-    public static final int TRENDS = 1;
-    public static final int USER = 2;
+    public static final int USER = 1;
+
+    public static final int COLLECT = 2;
+
+    public static final int REFUSE = 3;
+
+    public static final int WAITMUSIC = 4;
+
     private static final String FRAGMENT_STATE = "fragment_state";
     private static final String HOME_FRAGMENT = "homeFragment";
-    private static final String TRENDS_FRAGMENT = "trendsFragment";
+
+    private static final String COLLECT_FRAGMENT = "colletFragment";
+
+    private static final String REFUSE_FRAGMENT = "refuseFragment";
+
+    private static final String WAIT_MUSIC_FRAGMENT = "waitMusicFragment";
+
     private static final String USER_FRAGMENT = "userFragment";
     private FragmentManager fragmentManager;
     /**
      * 首页
      */
     private HomeFragment homeFragment;
+
     /**
-     * 动态页
+     * 收藏音乐页
      */
-    private TrendFragment trendFragment;
+    private CollectFragment collectFragment;
+
+    /**
+     * 审核未通过页
+     */
+    private RefuseFragment refuseFragment;
+
+    /**
+     * 待审核页
+     */
+    private WaitMusicFragment waitMusicFragment;
+
     /**
      * 我的
      */
@@ -48,29 +76,45 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
      */
     private long exitTime = 0L;
 
+    private int userType = MeoSPUtil.getInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_USER);
+
     @Override
     public void initView() {
         fragmentManager = getSupportFragmentManager();
-        binding.bcHome.setOnButtonClick(new ButtonCheck.OnButtonClickListener() {
-            @Override
-            public boolean onButtonClick(ButtonCheck bc, boolean bBeforeChecked) {
-                setSelectTab(HOME);
-                return false;
-            }
+        if (userType == AppConstant.ROLE_TYPE_USER) {
+            binding.bcWait.setVisibility(View.GONE);
+            binding.bcRefuse.setVisibility(View.GONE);
+            binding.bcCollect.setVisibility(View.VISIBLE);
+            binding.bcMine.setVisibility(View.VISIBLE);
+        } else if (userType == AppConstant.ROLE_TYPE_ADMIN) {
+            binding.bcWait.setVisibility(View.VISIBLE);
+            binding.bcRefuse.setVisibility(View.VISIBLE);
+            binding.bcCollect.setVisibility(View.GONE);
+            binding.bcMine.setVisibility(View.GONE);
+        }
+        binding.bcHome.setOnButtonClick((bc, bBeforeChecked) -> {
+            setSelectTab(HOME);
+            return false;
         });
-        binding.bcTrend.setOnButtonClick(new ButtonCheck.OnButtonClickListener() {
-            @Override
-            public boolean onButtonClick(ButtonCheck bc, boolean bBeforeChecked) {
-                setSelectTab(TRENDS);
-                return false;
-            }
+
+        binding.bcMine.setOnButtonClick((bc, bBeforeChecked) -> {
+            setSelectTab(USER);
+            return false;
         });
-        binding.bcMine.setOnButtonClick(new ButtonCheck.OnButtonClickListener() {
-            @Override
-            public boolean onButtonClick(ButtonCheck bc, boolean bBeforeChecked) {
-                setSelectTab(USER);
-                return false;
-            }
+
+        binding.bcCollect.setOnButtonClick((bc, bBeforeChecked) -> {
+            setSelectTab(COLLECT);
+            return false;
+        });
+
+        binding.bcWait.setOnButtonClick((bc, bBeforeChecked) -> {
+            setSelectTab(WAITMUSIC);
+            return false;
+        });
+
+        binding.bcRefuse.setOnButtonClick((bc, bBeforeChecked) -> {
+            setSelectTab(REFUSE);
+            return false;
         });
     }
 
@@ -93,16 +137,30 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
         }
 
         homeFragment = (HomeFragment) fragmentManager.findFragmentByTag(HOME_FRAGMENT);
-        trendFragment = (TrendFragment) fragmentManager.findFragmentByTag(TRENDS_FRAGMENT);
-        userFragment = (UserFragment) fragmentManager.findFragmentByTag(USER_FRAGMENT);
         if (homeFragment != null) {
             fragmentTransaction.hide(homeFragment);
         }
-        if (trendFragment != null) {
-            fragmentTransaction.hide(trendFragment);
-        }
-        if (userFragment != null) {
-            fragmentTransaction.hide(userFragment);
+
+        if (userType == AppConstant.ROLE_TYPE_USER) {
+            collectFragment = (CollectFragment) fragmentManager.findFragmentByTag(COLLECT_FRAGMENT);
+            if (collectFragment != null) {
+                fragmentTransaction.hide(collectFragment);
+            }
+
+            userFragment = (UserFragment) fragmentManager.findFragmentByTag(USER_FRAGMENT);
+            if (userFragment != null) {
+                fragmentTransaction.hide(userFragment);
+            }
+        } else if (userType == AppConstant.ROLE_TYPE_ADMIN) {
+            waitMusicFragment = (WaitMusicFragment) fragmentManager.findFragmentByTag(WAIT_MUSIC_FRAGMENT);
+            if (waitMusicFragment != null) {
+                fragmentTransaction.hide(waitMusicFragment);
+            }
+
+            refuseFragment = (RefuseFragment) fragmentManager.findFragmentByTag(REFUSE_FRAGMENT);
+            if (refuseFragment != null) {
+                fragmentTransaction.hide(refuseFragment);
+            }
         }
     }
 
@@ -111,8 +169,10 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
      */
     private void clearSelection() {
         binding.bcHome.setBtnValue(AppConstant.Switch.Close);
-        binding.bcTrend.setBtnValue(AppConstant.Switch.Close);
+        binding.bcCollect.setBtnValue(AppConstant.Switch.Close);
         binding.bcMine.setBtnValue(AppConstant.Switch.Close);
+        binding.bcWait.setBtnValue(AppConstant.Switch.Close);
+        binding.bcRefuse.setBtnValue(AppConstant.Switch.Close);
     }
 
     private void setSelectTab(int position) {
@@ -120,11 +180,19 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
             return;
         }
 
-        if (position == TRENDS && binding.bcTrend.getBtnValue() == AppConstant.Switch.Open) {
+        if (position == COLLECT && binding.bcCollect.getBtnValue() == AppConstant.Switch.Open) {
             return;
         }
 
         if (position == USER && binding.bcMine.getBtnValue() == AppConstant.Switch.Open) {
+            return;
+        }
+
+        if (position == WAITMUSIC && binding.bcWait.getBtnValue() == AppConstant.Switch.Open) {
+            return;
+        }
+
+        if (position == REFUSE && binding.bcRefuse.getBtnValue() == AppConstant.Switch.Open) {
             return;
         }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -136,20 +204,15 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                     transaction.add(R.id.fl_container, homeFragment, HOME_FRAGMENT);
-                    if (userFragment == null) {
-                        userFragment = new UserFragment();
-                        transaction.add(R.id.fl_container, userFragment, USER_FRAGMENT);
-                        transaction.hide(userFragment);
-                    }
                 } else {
                     transaction.show(homeFragment);
                 }
                 break;
-            case TRENDS:
-                binding.bcTrend.setBtnValue(AppConstant.Switch.Open);
-                if (trendFragment == null) {
-                    trendFragment = new TrendFragment();
-                    transaction.add(R.id.fl_container, trendFragment, TRENDS_FRAGMENT);
+            case COLLECT:
+                binding.bcCollect.setBtnValue(AppConstant.Switch.Open);
+                if (collectFragment == null) {
+                    collectFragment = new CollectFragment();
+                    transaction.add(R.id.fl_container, collectFragment, COLLECT_FRAGMENT);
                 } else {
                     transaction.show(userFragment);
                 }
@@ -161,6 +224,24 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
                     transaction.add(R.id.fl_container, userFragment, USER_FRAGMENT);
                 } else {
                     transaction.show(userFragment);
+                }
+                break;
+            case WAITMUSIC:
+                binding.bcWait.setBtnValue(AppConstant.Switch.Open);
+                if (waitMusicFragment == null) {
+                    waitMusicFragment = new WaitMusicFragment();
+                    transaction.add(R.id.fl_container, waitMusicFragment, WAIT_MUSIC_FRAGMENT);
+                } else {
+                    transaction.show(waitMusicFragment);
+                }
+                break;
+            case REFUSE:
+                binding.bcRefuse.setBtnValue(AppConstant.Switch.Open);
+                if (refuseFragment == null) {
+                    refuseFragment = new RefuseFragment();
+                    transaction.add(R.id.fl_container, refuseFragment, REFUSE_FRAGMENT);
+                } else {
+                    transaction.show(refuseFragment);
                 }
                 break;
             default:

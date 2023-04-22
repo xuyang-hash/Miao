@@ -50,10 +50,10 @@
                 app:imageHeight="@dimen/dp_32"
                 app:imageWidth="@dimen/dp_32" />
 
-            <!-- 动态 -->
+            <!-- 收藏 -->
 
             <com.meowing.loud.arms.widget.controls.ButtonCheck
-                android:id="@+id/bc_trend"
+                android:id="@+id/bc_collect"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -61,7 +61,7 @@
                 app:NormalBkg="@mipmap/ic_common_bottom_trends_unsel"
                 app:RippleBtnEnable="true"
                 app:SelectedBkg="@mipmap/ic_common_bottom_trends"
-                app:Text="@string/home_bottom_trend_title"
+                app:Text="@string/home_bottom_collect_title"
                 app:TextNormalColor="@color/tran_black_30"
                 app:TextSelectedColor="@color/theme_color"
                 app:TextSize="@dimen/small_tips_size"
@@ -79,6 +79,42 @@
                 app:RippleBtnEnable="true"
                 app:SelectedBkg="@mipmap/ic_common_bottom_mine"
                 app:Text="@string/home_bottom_mine_title"
+                app:TextNormalColor="@color/tran_black_30"
+                app:TextSelectedColor="@color/theme_color"
+                app:TextSize="@dimen/small_tips_size"
+                app:imageHeight="@dimen/dp_32"
+                app:imageWidth="@dimen/dp_32" />
+
+            <!-- 待审 -->
+
+            <com.meowing.loud.arms.widget.controls.ButtonCheck
+                android:id="@+id/bc_wait"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:lines="1"
+                app:NormalBkg="@mipmap/ic_common_bottom_trends_unsel"
+                app:RippleBtnEnable="true"
+                app:SelectedBkg="@mipmap/ic_common_bottom_trends"
+                app:Text="@string/home_bottom_wait_title"
+                app:TextNormalColor="@color/tran_black_30"
+                app:TextSelectedColor="@color/theme_color"
+                app:TextSize="@dimen/small_tips_size"
+                app:imageHeight="@dimen/dp_32"
+                app:imageWidth="@dimen/dp_32" />
+
+            <!-- 拒绝 -->
+
+            <com.meowing.loud.arms.widget.controls.ButtonCheck
+                android:id="@+id/bc_refuse"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:lines="1"
+                app:NormalBkg="@mipmap/ic_common_bottom_mine_unsel"
+                app:RippleBtnEnable="true"
+                app:SelectedBkg="@mipmap/ic_common_bottom_mine"
+                app:Text="@string/home_bottom_refuse_title"
                 app:TextNormalColor="@color/tran_black_30"
                 app:TextSelectedColor="@color/theme_color"
                 app:TextSize="@dimen/small_tips_size"

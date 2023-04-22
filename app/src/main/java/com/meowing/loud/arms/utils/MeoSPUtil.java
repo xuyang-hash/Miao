@@ -2,6 +2,9 @@ package com.meowing.loud.arms.utils;
 
 import android.content.Context;
 
+import com.meowing.loud.arms.constant.AppConstant;
+import com.meowing.loud.arms.constant.MMKConstant;
+
 public class MeoSPUtil {
     static SPUtil spUtil;
 
@@ -97,5 +100,9 @@ public class MeoSPUtil {
             return  spUtil.contains(key);
         }
         return false;
+    }
+
+    public static boolean isUserLogin() {
+        return getInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_USER) == AppConstant.ROLE_TYPE_USER;
     }
 }

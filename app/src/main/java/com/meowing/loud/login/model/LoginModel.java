@@ -11,6 +11,7 @@ import com.meowing.loud.arms.base.code.AccountCode;
 import com.meowing.loud.arms.base.code.SuccessCode;
 import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.arms.integration.IRepositoryManager;
+import com.meowing.loud.arms.manager.LocalDataManager;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.JDBCUtils;
 import com.meowing.loud.arms.utils.StringUtils;
@@ -43,7 +44,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
             @Override
             public void run() {
                 Connection connection = JDBCUtils.getConn();
-                String sql = "select password from User where username = ?";
+                String sql = "select * from User where username = ?";
                 PreparedStatement ps = null;
                 ResultSet resultSet = null;
                 Message msg = new Message();
@@ -98,9 +99,18 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                     resultSet = ps.executeQuery();
 
                     if (resultSet.next()) {
-                        String realpassword = resultSet.getString(1);
+                        UserResp user = new UserResp(resultSet.getInt(1),
+                                resultSet.getString(2),
+                                resultSet.getString(3),
+                                resultSet.getString(4),
+                                resultSet.getString(5),
+                                resultSet.getString(6),
+                                resultSet.getString(7),
+                                resultSet.getString(8));
+                        String realpassword = user.getPassword();
                         if (password.equals(realpassword)) {
                             msg.arg1 = SuccessCode.SUCCESS.getCode();
+                            LocalDataManager.getInstance().setUserInfo(user);
                         } else {
                             msg.arg1 = AccountCode.LOGIN_USER_OR_PWD_ERROR.getCode();
                         }

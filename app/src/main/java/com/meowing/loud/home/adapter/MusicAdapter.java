@@ -10,14 +10,9 @@ import androidx.cardview.widget.CardView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.meowing.loud.R;
-import com.meowing.loud.arms.constant.MMKConstant;
 import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.arms.utils.ArmsUtils;
-import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
 
@@ -37,9 +32,10 @@ public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
         ImageView ivUserHead = baseViewHolder.getView(R.id.iv_user_head);
         ImageView ivMusicHead = baseViewHolder.getView(R.id.iv_music_head);
         TextView tvMusicName = baseViewHolder.getView(R.id.tv_music_name);
-        TextView tvMusicTime = baseViewHolder.getView(R.id.tv_music_time);
         ImageView ivGood = baseViewHolder.getView(R.id.iv_music_good);
         TextView tvGoodNum = baseViewHolder.getView(R.id.tv_music_good_num);
+        ImageView ivLike = baseViewHolder.getView(R.id.iv_music_like);
+        TextView tvLikeNum = baseViewHolder.getView(R.id.tv_music_like_num);
         CardView cslMusicLayout = baseViewHolder.getView(R.id.csl_music_info);
 
         if (!StringUtils.isStringNULL(musicResp.getUsername())) {
@@ -54,17 +50,13 @@ public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
             ivMusicHead.setImageBitmap(ArmsUtils.toBitmapFromString(musicResp.getHeadString()));
         }
 
-        if (musicResp.getUpDate() != null) {
-            DateFormat sdf = new SimpleDateFormat("yyyy:MM:dd HH:mm");
-            String upDate = sdf.format(musicResp.getUpDate());
-            tvMusicTime.setText(upDate);
-        }
-
         if (!StringUtils.isStringNULL(musicResp.getName())) {
             tvMusicName.setText(musicResp.getName());
         }
-        ivGood.setSelected(musicResp.isGood(MeoSPUtil.getString(MMKConstant.LOGIN_USER_NAME)));
+        ivGood.setSelected(musicResp.isGoodContainMe());
         tvGoodNum.setText(String.valueOf(musicResp.getGoodNum()));
+        ivLike.setSelected(musicResp.isLikeContainMe());
+        tvLikeNum.setText(String.valueOf(musicResp.getLikeNum()));
 
         cslMusicLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,14 +70,28 @@ public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
                 listener.updateGoodState(baseViewHolder.getPosition(), ivGood.isSelected());
             }
         });
+
+        ivLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.updateLikeState(baseViewHolder.getPosition(), ivLike.isSelected());
+            }
+        });
     }
 
     public interface Listener {
         /**
          * 更新点赞状态
+         *
          * @param isAdd 点赞，false则为取消点赞
          */
         void updateGoodState(int position, boolean isAdd);
+
+        /**
+         * 更新收藏状态
+         * @param isLike 收藏，false则为取消收藏
+         */
+        void updateLikeState(int position, boolean isLike);
 
         void onItemClickListener(int position, MusicResp resp);
     }

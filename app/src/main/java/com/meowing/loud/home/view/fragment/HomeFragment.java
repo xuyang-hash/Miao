@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseFragment;
+import com.meowing.loud.arms.constant.AppConstant;
 import com.meowing.loud.arms.di.component.AppComponent;
 import com.meowing.loud.arms.dialog.CSeeLoadingDialog;
 import com.meowing.loud.arms.manager.LocalDataManager;
@@ -19,6 +20,8 @@ import com.meowing.loud.home.contract.HomeContract;
 import com.meowing.loud.home.di.component.DaggerHomeComponent;
 import com.meowing.loud.home.di.module.HomeModule;
 import com.meowing.loud.home.presenter.HomePresenter;
+import com.meowing.loud.home.view.activity.HomeAddMusicActivity;
+import com.meowing.loud.play.view.activity.PlayActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +51,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
         musicAdapter = new MusicAdapter();
         musicAdapter.setListener(this);
         binding.ryMusicList.setAdapter(musicAdapter);
+        binding.ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HomeAddMusicActivity.start(getContext());
+            }
+        });
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-//        showLoading();
-//        mPresenter.findAllMusicData();
+        showLoading();
+        mPresenter.findAllPassMusicData();
     }
 
     @Override
@@ -62,9 +71,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
     }
 
     @Override
-    public void findAllMusicSuccess() {
-        this.musicRespList.addAll(LocalDataManager.getInstance().getMusicRespList());
-        musicAdapter.setList(LocalDataManager.getInstance().getMusicRespList());
+    public void findAllPassMusicResult() {
+        musicRespList.addAll(LocalDataManager.getInstance().getAllPassMusicList());
+        musicAdapter.setList(musicRespList);
     }
 
     @Override
@@ -81,8 +90,21 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
     }
 
     @Override
+    public void updateLikeState(int position, boolean isLike) {
+        MusicResp musicResp = musicRespList.get(position);
+        String username = LocalDataManager.getInstance().getUserInfo().getUsername();
+        if (isLike) {
+            musicResp.addLike(username);
+        } else {
+            musicResp.delLike(username);
+        }
+        musicAdapter.notifyItemChanged(position);
+        mPresenter.updateMusicLike(username, musicResp, isLike);
+    }
+
+    @Override
     public void onItemClickListener(int position, MusicResp resp) {
-        //todo: 跳转到音乐播放界面
+        PlayActivity.start(getContext(), AppConstant.MUSIC_TYPE_PASS, position);
     }
 
     @Override

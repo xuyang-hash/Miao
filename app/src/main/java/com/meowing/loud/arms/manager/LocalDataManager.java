@@ -2,6 +2,7 @@ package com.meowing.loud.arms.manager;
 
 import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.arms.resp.UserResp;
+import com.meowing.loud.arms.utils.MeoSPUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,15 +15,36 @@ public class LocalDataManager {
      */
     private UserResp userResp;
 
-    private List<MusicResp> musicRespList;
+    /**
+     * 缓存从服务器获取到的待审核的音乐
+     */
+    private List<MusicResp> allWaitMusicList;
 
-    private List<Integer> allMusicIdList;
+    /**
+     * 缓存从服务器获取到的审核通过的音乐
+     */
+    private List<MusicResp> allPassMusicList;
+
+    /**
+     * 缓存从服务器获取到的审核未通过的音乐
+     */
+    private List<MusicResp> allRefuseMusicList;
+
+    /**
+     * 缓存从服务器获取到的当前登录用户收藏的音乐
+     */
+    private List<MusicResp> allLikeMusicList;
+
+    private List<MusicResp> allMineMusicList;
 
     private HashMap<Integer, String> musicUrlMap;
 
     public LocalDataManager() {
-        this.musicRespList = new ArrayList<>();
-        this.allMusicIdList = new ArrayList<>();
+        this.allWaitMusicList = new ArrayList<>();
+        this.allPassMusicList = new ArrayList<>();
+        this.allRefuseMusicList = new ArrayList<>();
+        this.allLikeMusicList = new ArrayList<>();
+        this.allMineMusicList = new ArrayList<>();
         this.musicUrlMap = new HashMap<>();
     }
 
@@ -42,20 +64,76 @@ public class LocalDataManager {
         this.userResp = userInfo;
     }
 
-    public List<MusicResp> getMusicRespList() {
-        return musicRespList;
+    /**
+     * 获取所有待审核的音乐（无uri）
+     * @return
+     */
+    public List<MusicResp> getAllWaitMusicList() {
+        return allWaitMusicList;
     }
 
-    public void setMusicRespList(List<MusicResp> musicRespList) {
-        this.musicRespList = musicRespList;
+    /**
+     * 缓存待审核的音乐到本地
+     * @param musicResp
+     */
+    public void setWaitMusic(MusicResp musicResp) {
+        if (musicResp != null) {
+            allWaitMusicList.add(musicResp);
+        }
     }
 
-    public List<Integer> getAllMusicIdList() {
-        return allMusicIdList;
+    /**
+     * 获取所有审核通过的音乐（无uri）
+     * @return
+     */
+    public List<MusicResp> getAllPassMusicList() {
+        return allPassMusicList;
     }
 
-    public void setAllMusicIdList(List<Integer> allMusicIdList) {
-        this.allMusicIdList = allMusicIdList;
+    /**
+     * 缓存审核通过的音乐到本地
+     * @param musicResp
+     */
+    public void setPassMusic(MusicResp musicResp) {
+        if (musicResp != null) {
+            allPassMusicList.add(musicResp);
+            // 若包含当前登录用户收藏的音乐，则也缓存到收藏的列表
+            if (MeoSPUtil.isUserLogin() && musicResp.isLikeContainMe()) {
+                allLikeMusicList.add(musicResp);
+            }
+        }
+    }
+
+    /**
+     * 获取所有审核未通过的音乐
+     * @return
+     */
+    public List<MusicResp> getAllRefuseMusicList() {
+        return allRefuseMusicList;
+    }
+
+    /**
+     * 缓存审核未通过的音乐到本地
+     * @param musicResp
+     */
+    public void setRefuseMusic(MusicResp musicResp) {
+        if (musicResp != null && !allRefuseMusicList.contains(musicResp)) {
+            allRefuseMusicList.add(musicResp);
+        }
+    }
+
+    public List<MusicResp> getAllLikeMusicList() {
+        return allLikeMusicList;
+    }
+
+    public List<MusicResp> getAllMineMusicList() {
+        return allMineMusicList;
+    }
+
+    public void setMineMusic(MusicResp musicResp) {
+        if (musicResp != null) {
+            allMineMusicList.add(musicResp);
+        }
     }
 
     public void addMusicUrl(int musicId, String musicUrl) {
@@ -79,12 +157,20 @@ public class LocalDataManager {
      * @param isClearLoginStatus    是否清除登录状态
      */
     public void clear(boolean isClearLoginStatus) {
-        if (musicRespList != null) {
-            musicRespList.clear();
+        if (allWaitMusicList != null) {
+            allWaitMusicList.clear();
         }
 
-        if (allMusicIdList != null) {
-            allMusicIdList.clear();
+        if (allPassMusicList != null) {
+            allPassMusicList.clear();
+        }
+
+        if (allRefuseMusicList != null) {
+            allRefuseMusicList.clear();
+        }
+
+        if (allLikeMusicList != null) {
+
         }
 
         if (musicUrlMap != null) {

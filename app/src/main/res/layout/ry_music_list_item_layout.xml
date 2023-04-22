@@ -57,47 +57,64 @@
                 android:id="@+id/tv_music_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_margin"
                 android:layout_marginStart="@dimen/half_of_normal_margin"
                 android:text="歌曲名"
                 android:textColor="@color/normal_text_color"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/iv_music_head"
-                app:layout_constraintTop_toTopOf="@id/iv_music_head" />
-
-            <TextView
-                android:id="@+id/tv_music_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/half_of_normal_margin"
-                android:text="4分钟前"
-                android:textColor="@color/tips_color"
-                android:textSize="@dimen/tips_size"
-                android:layout_marginTop="@dimen/small_margin"
-                app:layout_constraintStart_toEndOf="@id/iv_music_head"
-                app:layout_constraintTop_toBottomOf="@id/tv_music_name" />
+                app:layout_constraintTop_toTopOf="@id/iv_music_head"
+                app:layout_constraintBottom_toBottomOf="@id/iv_music_head"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/iv_music_good"
-        android:layout_width="@dimen/round_select_margin"
-        android:layout_height="@dimen/round_select_margin"
-        android:src="@drawable/ic_good_state"
-        app:layout_constraintEnd_toStartOf="@id/tv_music_good_num"
-        app:layout_constraintTop_toTopOf="@id/tv_music_good_num" />
-
-    <TextView
-        android:id="@+id/tv_music_good_num"
+    <LinearLayout
+        android:id="@+id/cl_good_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginEnd="@dimen/normal_margin"
-        android:text="999+"
-        android:textSize="@dimen/tips_size"
+        app:layout_constraintEnd_toStartOf="@id/cl_like_layout"
+        app:layout_constraintTop_toBottomOf="@id/csl_music_info"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_music_good"
+            android:layout_width="@dimen/round_select_margin"
+            android:layout_height="@dimen/round_select_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:src="@drawable/ic_good_state" />
+
+        <TextView
+            android:id="@+id/tv_music_good_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="999+"
+            android:textSize="@dimen/tips_size"
+            app:layout_constraintTop_toBottomOf="@id/csl_music_info" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cl_like_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/csl_music_info" />
+        app:layout_constraintTop_toBottomOf="@id/csl_music_info"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_music_like"
+            android:layout_width="@dimen/round_select_margin"
+            android:layout_height="@dimen/round_select_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:src="@drawable/ic_like_selector" />
+
+        <TextView
+            android:id="@+id/tv_music_like_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="999+"
+            android:textSize="@dimen/tips_size"
+            app:layout_constraintTop_toBottomOf="@id/csl_music_info" />
+    </LinearLayout>
 
     <View
         android:id="@+id/line"
@@ -108,5 +125,5 @@
         android:layout_marginEnd="@dimen/normal_margin"
         android:background="@color/mode_disabled_color"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_music_good" />
+        app:layout_constraintTop_toBottomOf="@id/cl_good_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

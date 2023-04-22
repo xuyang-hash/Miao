@@ -6,11 +6,8 @@ import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BasePresenter;
 import com.meowing.loud.arms.base.code.AccountCode;
 import com.meowing.loud.arms.base.code.ErrorCodeManager;
-import com.meowing.loud.arms.manager.LocalDataManager;
 import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.home.contract.HomeContract;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -30,16 +27,14 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
     }
 
     /**
-     * 查询所有音乐列表数据
+     * 获取所有待审核的音乐
      */
-    public void findAllMusicData() {
-        mModel.findAllMusicData(new HomeContract.Model.Listener() {
+    public void findAllWaitMusicData() {
+        mModel.findAllWaitMusicData(new HomeContract.Model.Listener() {
             @Override
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();
-                ArrayList<MusicResp> musicRespArrayList = (ArrayList<MusicResp>) obj;
-                LocalDataManager.getInstance().setMusicRespList(musicRespArrayList);
-                mRootView.findAllMusicSuccess();
+                mRootView.findAllWaitMusicResult();
             }
 
             @Override
@@ -50,6 +45,50 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
         });
     }
 
+    /**
+     * 获取所有审核通过的音乐
+     */
+    public void findAllPassMusicData() {
+        mModel.findAllPassMusicData(new HomeContract.Model.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.findAllPassMusicResult();
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+            }
+        });
+    }
+
+    /**
+     * 获取所有审核未通过的音乐
+     */
+    public void findAllRefuseMusicData() {
+        mModel.findAllRefuseMusicData(new HomeContract.Model.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.findAllRefuseMusicResult();
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+            }
+        });
+    }
+
+    /**
+     * 更新音乐赞
+     * @param username
+     * @param resp
+     * @param isAdd
+     */
     public void updateMusicGood(String username, MusicResp resp, boolean isAdd) {
         mModel.updateMusicGood(username, resp, new HomeContract.Model.Listener() {
             @Override
@@ -66,6 +105,45 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                 } else {
                     mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
                 }
+            }
+        });
+    }
+
+    public void updateMusicLike(String username, MusicResp resp, boolean isLike) {
+        mModel.updateMusicLike(username, resp, new HomeContract.Model.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.updateMusicGoodResult(true, resp, isLike);
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                if (errorId == AccountCode.UPDATE_MUSIC_GOOD_FAILED.getCode()) {
+                    mRootView.updateMusicGoodResult(false, resp, isLike);
+                } else {
+                    mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+                }
+            }
+        });
+    }
+
+    /**
+     * 上传音乐
+     * @param musicResp
+     */
+    public void addMusic(MusicResp musicResp) {
+        mModel.addMusic(musicResp, new HomeContract.Model.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.addMusicResult(true);
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
             }
         });
     }

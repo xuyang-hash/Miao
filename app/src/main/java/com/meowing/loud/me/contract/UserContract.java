@@ -18,6 +18,10 @@ public interface UserContract {
         default void onFindUserResult(boolean isSuccess, UserResp userResp, int errorId) {
 
         }
+
+        default void findAllMineMusicResult(boolean isSuccess) {
+
+        }
     }
 
     interface Model extends IModel {
@@ -38,6 +42,9 @@ public interface UserContract {
          * @return  若查到了，则传值，若查不到，则传null
          */
         void findUser(String username, Listener listener);
+
+        int FIND_ALL_MINE_MUSIC = 2;
+        void findAllMineMusic(String username, Listener listener);
 
         interface Listener {
             void onSuccess(Object obj);
