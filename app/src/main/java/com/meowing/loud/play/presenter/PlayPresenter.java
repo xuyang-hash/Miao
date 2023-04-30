@@ -39,8 +39,21 @@ public class PlayPresenter extends BasePresenter<PlayContract.Model, PlayContrac
     public void findMusicUrl(int musicId) {
         String localUrl = LocalDataManager.getInstance().getMusicUrl(musicId);
         if (StringUtils.isStringNULL(localUrl)) {
+            mModel.findMusicUrl(musicId, new PlayContract.Model.Listener() {
+                @Override
+                public void onSuccess(Object obj) {
+                    mRootView.hideLoading();
+                    mRootView.findMusicUrlResult((String) obj);
+                }
 
+                @Override
+                public void onFailed(int errorId) {
+                    mRootView.hideLoading();
+                    mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+                }
+            });
         } else {
+            mRootView.hideLoading();
             mRootView.findMusicUrlResult(localUrl);
         }
     }
@@ -94,6 +107,26 @@ public class PlayPresenter extends BasePresenter<PlayContract.Model, PlayContrac
                 } else {
                     mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
                 }
+            }
+        });
+    }
+
+    /**
+     * 更新歌曲的赞
+     *
+     */
+    public void updateMusicState(MusicResp musicResp, boolean isPass) {
+        mModel.updateMusicState(musicResp.getId(), isPass, new PlayContract.Model.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.updateMusicStateResult(true, musicResp, isPass);
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
             }
         });
     }

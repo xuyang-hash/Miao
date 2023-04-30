@@ -67,6 +67,7 @@ public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
         ivGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ivGood.setSelected(!ivGood.isSelected());
                 listener.updateGoodState(baseViewHolder.getPosition(), ivGood.isSelected());
             }
         });
@@ -74,6 +75,7 @@ public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
         ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ivLike.setSelected(!ivLike.isSelected());
                 listener.updateLikeState(baseViewHolder.getPosition(), ivLike.isSelected());
             }
         });

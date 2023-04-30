@@ -29,7 +29,7 @@
         android:text="我是作者"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size"
-        app:layout_constraintEnd_toEndOf="@id/tv_music_name"
+        app:layout_constraintStart_toStartOf="@id/tv_music_name"
         app:layout_constraintTop_toBottomOf="@id/tv_music_name" />
 
     <androidx.cardview.widget.CardView
@@ -50,6 +50,28 @@
             android:layout_centerInParent="true"
             android:background="@mipmap/ic_login_logo" />
     </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:id="@+id/fl_admin_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_50"
+        android:layout_marginEnd="@dimen/dp_50"
+        android:layout_marginBottom="@dimen/normal_margin"
+        app:layout_constraintBottom_toTopOf="@+id/ll_seek">
+        <ImageView
+            android:id="@+id/iv_music_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_right"/>
+
+        <ImageView
+            android:id="@+id/iv_music_refuse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_error"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_seek"

@@ -85,23 +85,24 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
 
     /**
      * 更新音乐赞
+     *
      * @param username
      * @param resp
      * @param isAdd
      */
-    public void updateMusicGood(String username, MusicResp resp, boolean isAdd) {
+    public void updateMusicGood(String username, MusicResp resp, int position, boolean isAdd) {
         mModel.updateMusicGood(username, resp, new HomeContract.Model.Listener() {
             @Override
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();
-                mRootView.updateMusicGoodResult(true, resp, isAdd);
+                mRootView.updateMusicGoodResult(true, resp, position, isAdd);
             }
 
             @Override
             public void onFailed(int errorId) {
                 mRootView.hideLoading();
                 if (errorId == AccountCode.UPDATE_MUSIC_GOOD_FAILED.getCode()) {
-                    mRootView.updateMusicGoodResult(false, resp, isAdd);
+                    mRootView.updateMusicGoodResult(false, resp, position, isAdd);
                 } else {
                     mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
                 }
@@ -109,19 +110,19 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
         });
     }
 
-    public void updateMusicLike(String username, MusicResp resp, boolean isLike) {
+    public void updateMusicLike(String username, MusicResp resp, int position, boolean isLike) {
         mModel.updateMusicLike(username, resp, new HomeContract.Model.Listener() {
             @Override
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();
-                mRootView.updateMusicGoodResult(true, resp, isLike);
+                mRootView.updateMusicGoodResult(true, resp, position, isLike);
             }
 
             @Override
             public void onFailed(int errorId) {
                 mRootView.hideLoading();
                 if (errorId == AccountCode.UPDATE_MUSIC_GOOD_FAILED.getCode()) {
-                    mRootView.updateMusicGoodResult(false, resp, isLike);
+                    mRootView.updateMusicGoodResult(false, resp, position, isLike);
                 } else {
                     mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
                 }

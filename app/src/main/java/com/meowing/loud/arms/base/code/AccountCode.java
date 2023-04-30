@@ -8,7 +8,7 @@ public enum AccountCode implements BusinessCode {
     CONNECT_FAILED(-2, R.string.common_connect_failed),
     USER_UNKNOWN_ERROR(-4000, R.string.account_login_unknown_error),
     LOGIN_USER_OR_PWD_ERROR(-4001, R.string.account_login_error_name_psw),
-    LOGIN_USERNAME_NOT_EXIST(-4002, R.string.account_login_name_no_exist),
+    LOGIN_USERNAME_NOT_EXIST(-4002, R.string.account_login_find_user_empty),
     LOGIN_CONNECT_FAILED(-4003, R.string.account_register_connect_failed),
     REGISTER_ALREADY_ADD(-4010, R.string.account_login_name_already_exist),
     REGISTER_SUBMITT_FAILED(-4011, R.string.account_register_submit_failed),
@@ -27,6 +27,8 @@ public enum AccountCode implements BusinessCode {
     UPDATE_MUSIC_GOOD_FAILED(-5001, R.string.music_good_add_failed),
 
     UPDATE_MUSIC_LIKE_FAILED(-5011, R.string.music_like_add_failed),
+
+    UPDATE_MUSIC_STATE_FAILED(-5021, R.string.music_state_pass_failed),
     ;
 
     private final int code;

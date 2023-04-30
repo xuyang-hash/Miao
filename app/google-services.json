@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "725680406730",
+    "project_id": "meowing-1d957",
+    "storage_bucket": "meowing-1d957.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725680406730:android:8981da6b41ff3b21e9f433",
+        "android_client_info": {
+          "package_name": "com.meowing.loud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725680406730-hpqoepd0vp0g1nmv9njfp9222h11rkbn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY3Y8uh4dlq8TiOtyAsbcroNOsI1WIGXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725680406730-hpqoepd0vp0g1nmv9njfp9222h11rkbn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

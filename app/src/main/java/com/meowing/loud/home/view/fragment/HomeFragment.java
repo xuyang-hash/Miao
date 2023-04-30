@@ -61,6 +61,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         showLoading();
         mPresenter.findAllPassMusicData();
     }
@@ -72,8 +78,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
 
     @Override
     public void findAllPassMusicResult() {
+        musicRespList.clear();
         musicRespList.addAll(LocalDataManager.getInstance().getAllPassMusicList());
-        musicAdapter.setList(musicRespList);
+        if (musicRespList.isEmpty()) {
+            binding.tvEmpty.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvEmpty.setVisibility(View.GONE);
+            musicAdapter.setList(musicRespList);
+        }
     }
 
     @Override
@@ -86,7 +98,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
             musicResp.delGood(username);
         }
         musicAdapter.notifyItemChanged(position);
-        mPresenter.updateMusicGood(username, musicResp, isAdd);
+        mPresenter.updateMusicGood(username, musicResp, position, isAdd);
     }
 
     @Override
@@ -99,7 +111,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
             musicResp.delLike(username);
         }
         musicAdapter.notifyItemChanged(position);
-        mPresenter.updateMusicLike(username, musicResp, isLike);
+        mPresenter.updateMusicLike(username, musicResp, position, isLike);
     }
 
     @Override
@@ -108,7 +120,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
     }
 
     @Override
-    public void updateMusicGoodResult(boolean isSuccess, MusicResp musicResp, boolean isAdd) {
+    public void updateMusicGoodResult(boolean isSuccess, MusicResp musicResp, int position, boolean isAdd) {
         if (isSuccess) {
             ToastUtils.showShort(getContext(), isAdd ? R.string.music_good_add_success : R.string.music_good_cancel_success);
         } else {
@@ -118,7 +130,22 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
             } else {
                 musicResp.addGood(LocalDataManager.getInstance().getUserInfo().getUsername());
             }
-            musicAdapter.notifyDataSetChanged();
+            musicAdapter.notifyItemChanged(position);
+        }
+    }
+
+    @Override
+    public void updateMusicLikeResult(boolean isSuccess, MusicResp musicResp, int position, boolean isAdd) {
+        if (isSuccess) {
+            ToastUtils.showShort(getContext(), isAdd ? R.string.music_like_add_success : R.string.music_like_cancel_success);
+        } else {
+            ToastUtils.showShort(getContext(), isAdd ? R.string.music_like_add_failed : R.string.music_like_cancel_failed);
+            if (isAdd) {
+                musicResp.delGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+            } else {
+                musicResp.addGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+            }
+            musicAdapter.notifyItemChanged(position);
         }
     }
 

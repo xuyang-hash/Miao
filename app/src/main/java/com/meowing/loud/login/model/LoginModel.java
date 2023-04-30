@@ -9,11 +9,15 @@ import android.os.Message;
 import com.meowing.loud.arms.base.BaseModel;
 import com.meowing.loud.arms.base.code.AccountCode;
 import com.meowing.loud.arms.base.code.SuccessCode;
+import com.meowing.loud.arms.constant.AppConstant;
+import com.meowing.loud.arms.constant.MMKConstant;
 import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.arms.integration.IRepositoryManager;
 import com.meowing.loud.arms.manager.LocalDataManager;
+import com.meowing.loud.arms.resp.AdminResp;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.JDBCUtils;
+import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.login.contract.LoginContract;
 
@@ -55,9 +59,20 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                     resultSet = ps.executeQuery();
 
                     if (resultSet.next()) {
-                        String realpassword = resultSet.getString(1);
-                        if (password.equals(realpassword)) {
+                        UserResp user = new UserResp(resultSet.getInt(1),
+                                resultSet.getString(2),
+                                resultSet.getString(3),
+                                resultSet.getString(4),
+                                resultSet.getString(5),
+                                resultSet.getString(6),
+                                resultSet.getString(7),
+                                resultSet.getString(8));
+                        String realpassword = user.getPassword();
+                        if (StringUtils.contrast(password, realpassword)) {
                             msg.arg1 = SuccessCode.SUCCESS.getCode();
+                            LocalDataManager.getInstance().setUserInfo(user);
+                            MeoSPUtil.putString(MMKConstant.LOGIN_USER_NAME, user.getUsername());
+                            MeoSPUtil.putInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_USER);
                         } else {
                             msg.arg1 = AccountCode.LOGIN_USER_OR_PWD_ERROR.getCode();
                         }
@@ -88,7 +103,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
             @Override
             public void run() {
                 Connection connection = JDBCUtils.getConn();
-                String sql = "select password from Admin where username = ?";
+                String sql = "select * from Admin where username = ?";
                 PreparedStatement ps = null;
                 ResultSet resultSet = null;
                 Message msg = new Message();
@@ -99,18 +114,16 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                     resultSet = ps.executeQuery();
 
                     if (resultSet.next()) {
-                        UserResp user = new UserResp(resultSet.getInt(1),
-                                resultSet.getString(2),
-                                resultSet.getString(3),
-                                resultSet.getString(4),
-                                resultSet.getString(5),
-                                resultSet.getString(6),
-                                resultSet.getString(7),
-                                resultSet.getString(8));
-                        String realpassword = user.getPassword();
-                        if (password.equals(realpassword)) {
+                        AdminResp adminResp = new AdminResp(resultSet.getInt(1), //id
+                                resultSet.getString(2), // username
+                                resultSet.getString(3) // password
+                                );
+                        String realpassword = adminResp.getPassword();
+                        if (StringUtils.contrast(password, realpassword)) {
                             msg.arg1 = SuccessCode.SUCCESS.getCode();
-                            LocalDataManager.getInstance().setUserInfo(user);
+                            LocalDataManager.getInstance().setAdminInfo(adminResp);
+                            MeoSPUtil.putString(MMKConstant.LOGIN_USER_NAME, adminResp.getUsername());
+                            MeoSPUtil.putInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_ADMIN);
                         } else {
                             msg.arg1 = AccountCode.LOGIN_USER_OR_PWD_ERROR.getCode();
                         }

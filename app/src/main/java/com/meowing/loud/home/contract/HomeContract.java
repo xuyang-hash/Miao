@@ -30,9 +30,19 @@ public interface HomeContract {
 
         /**
          * 更新点赞失败
+         *
          * @param isAdd true为点赞，false为取消点赞
          */
-        default void updateMusicGoodResult(boolean isSuccess, MusicResp resp, boolean isAdd) {
+        default void updateMusicGoodResult(boolean isSuccess, MusicResp resp, int position, boolean isAdd) {
+
+        }
+
+        /**
+         * 更新收藏失败
+         *
+         * @param isAdd true为收藏，false为取消收藏
+         */
+        default void updateMusicLikeResult(boolean isSuccess, MusicResp resp, int position, boolean isAdd) {
 
         }
 

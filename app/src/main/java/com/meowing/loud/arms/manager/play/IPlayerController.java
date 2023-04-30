@@ -1,5 +1,7 @@
 package com.meowing.loud.arms.manager.play;
 
+import android.content.Context;
+
 public interface IPlayerController {
 
     int PLAY_STATE_START = 0;
@@ -12,7 +14,7 @@ public interface IPlayerController {
      * 将UI控制提交给逻辑层
      * @param iPlayerViewController
      */
-    void registerIPlayViewController(IPlayerViewController iPlayerViewController);
+    void registerIPlayViewController(Context context, IPlayerViewController iPlayerViewController);
 
     /**
      * 取消绑定的控制器

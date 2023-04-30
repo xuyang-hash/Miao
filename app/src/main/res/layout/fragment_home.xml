@@ -51,4 +51,15 @@
                 tools:listitem="@layout/ry_music_list_item_layout" />
         </LinearLayout>
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="暂无数据哦"
+        android:textSize="@dimen/big_title_size"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/tips_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

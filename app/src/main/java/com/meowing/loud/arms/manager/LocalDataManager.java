@@ -1,5 +1,6 @@
 package com.meowing.loud.arms.manager;
 
+import com.meowing.loud.arms.resp.AdminResp;
 import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.MeoSPUtil;
@@ -14,6 +15,11 @@ public class LocalDataManager {
      * 当前正在登录的用户
      */
     private UserResp userResp;
+
+    /**
+     * 当前正在登录的管理员
+     */
+    private AdminResp adminResp;
 
     /**
      * 缓存从服务器获取到的待审核的音乐
@@ -64,6 +70,14 @@ public class LocalDataManager {
         this.userResp = userInfo;
     }
 
+    public AdminResp getAdminInfo() {
+        return adminResp;
+    }
+
+    public void setAdminInfo(AdminResp adminResp) {
+        this.adminResp = adminResp;
+    }
+
     /**
      * 获取所有待审核的音乐（无uri）
      * @return
@@ -96,6 +110,11 @@ public class LocalDataManager {
      */
     public void setPassMusic(MusicResp musicResp) {
         if (musicResp != null) {
+            for (MusicResp resp : allPassMusicList) {
+                if (resp.getId() == musicResp.getId()) {
+                    return;
+                }
+            }
             allPassMusicList.add(musicResp);
             // 若包含当前登录用户收藏的音乐，则也缓存到收藏的列表
             if (MeoSPUtil.isUserLogin() && musicResp.isLikeContainMe()) {

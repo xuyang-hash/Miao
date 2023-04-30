@@ -2,6 +2,7 @@ package com.meowing.loud.play.di.module;
 
 import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.play.contract.PlayContract;
+import com.meowing.loud.play.model.PlayModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -27,7 +28,7 @@ public class PlayModule {
 
     @ActivityScope
     @Provides
-    PlayContract.Model providePlayModel(PlayContract.Model model) {
+    PlayContract.Model providePlayModel(PlayModel model) {
         return model;
     }
 }

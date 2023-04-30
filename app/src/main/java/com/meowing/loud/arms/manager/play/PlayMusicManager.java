@@ -1,7 +1,9 @@
 package com.meowing.loud.arms.manager.play;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.util.Log;
 
@@ -25,8 +27,11 @@ public class PlayMusicManager extends Binder implements IPlayerController {
 
     private int mCurrentPosition;
 
+    private Context context;
+
     @Override
-    public void registerIPlayViewController(IPlayerViewController iPlayerViewController) {
+    public void registerIPlayViewController(Context context, IPlayerViewController iPlayerViewController) {
+        this.context = context;
         mViewController = iPlayerViewController;
     }
 
@@ -42,7 +47,7 @@ public class PlayMusicManager extends Binder implements IPlayerController {
             initMediaPlayer();
             try {
                 Log.i(TAG, url);
-                mPlayer.setDataSource(url);
+                mPlayer.setDataSource(context, Uri.parse(url));
                 mPlayer.prepare();
                 mPlayer.start();
                 startTimeTask();

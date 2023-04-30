@@ -10,9 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -31,16 +29,17 @@ import com.meowing.loud.arms.manager.play.IPlayerController;
 import com.meowing.loud.arms.manager.play.IPlayerViewController;
 import com.meowing.loud.arms.manager.play.PlayService;
 import com.meowing.loud.arms.resp.MusicResp;
+import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.arms.utils.ToastUtils;
 import com.meowing.loud.databinding.ActivityPlayLayoutBinding;
 import com.meowing.loud.play.contract.PlayContract;
+import com.meowing.loud.play.di.component.DaggerPlayComponent;
+import com.meowing.loud.play.di.module.PlayModule;
 import com.meowing.loud.play.presenter.PlayPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import timber.log.Timber;
 
 public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPresenter> implements PlayContract.View {
 
@@ -49,9 +48,6 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     private ObjectAnimator mRotation;
 
     private IPlayerController mController;
-
-    private PlayerConnection mPlayerConnection;
-
     private boolean isTouch = false;
 
     private static int mPosition;
@@ -62,22 +58,6 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
 
     private List<MusicResp> musicList = new ArrayList<>();
 
-    public Handler sHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            String showInfo = "";
-            if (msg.what == 301) {
-                showInfo = getString(R.string.play_download_success);
-            } else if (msg.what == 302) {
-                showInfo = getString(R.string.play_download_failed);
-            } else if (msg.what == 303) {
-                showInfo = getString(R.string.play_download_exist_tip);
-            }
-            ToastUtils.showShort(PlayActivity.this, showInfo);
-            return false;
-        }
-    });
-
     public static void start(Context context, int musicType, int mPosition) {
         Intent intent = new Intent(context, PlayActivity.class);
         intent.putExtra("position", mPosition);
@@ -87,7 +67,12 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerPlayComponent
+                .builder()
+                .appComponent(appComponent)
+                .playModule(new PlayModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -101,17 +86,13 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
             binding.tvEditLike.setText(musicInfo.getLikeNum() + "");
             binding.ivEditLike.setSelected(musicInfo.isLikeContainMe());
         }
-        if (mRotation != null) {
-            mRotation.start();
-            return;
+
+        if (MeoSPUtil.isUserLogin()) {
+            binding.flAdminControl.setVisibility(View.GONE);
+        } else {
+            binding.flAdminControl.setVisibility(View.VISIBLE);
         }
-        //设置旋转动画
-        mRotation = ObjectAnimator
-                .ofFloat(binding.ivPlayerPic, "rotation", 0, 360)
-                .setDuration(15000);
-        mRotation.setRepeatCount(Animation.INFINITE);
-        mRotation.setInterpolator(new LinearInterpolator());
-        mRotation.start();
+
         //初始化控件的点击事件
         initListener();
         initService();
@@ -121,10 +102,22 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        if (mPresenter != null) {
-            showLoading();
-            mPresenter.findMusicUrl(musicInfo.getId());
+    }
+
+    /**
+     * 设置旋转动画
+     */
+    private void startRotation() {
+        if (mRotation != null) {
+            mRotation.start();
+            return;
         }
+        mRotation = ObjectAnimator
+                .ofFloat(binding.ivPlayerPic, "rotation", 0, 360)
+                .setDuration(15000);
+        mRotation.setRepeatCount(Animation.INFINITE);
+        mRotation.setInterpolator(new LinearInterpolator());
+        mRotation.start();
     }
 
     /**
@@ -218,6 +211,29 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
                 mPresenter.updateMusicLike(musicInfo, binding.ivEditLike.isSelected());
             }
         });
+
+        // 审核音乐之通过
+        binding.ivMusicPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.updateMusicState(musicInfo, true);
+            }
+        });
+
+        // 审核音乐之拒绝
+        binding.ivMusicRefuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.updateMusicState(musicInfo, false);
+            }
+        });
+    }
+
+    @Override
+    public void updateMusicStateResult(boolean isSuccess, MusicResp resp, boolean isPass) {
+        if (isSuccess) {
+            ToastUtils.showShort(this, R.string.music_state_pass_success);
+        }
     }
 
     /**
@@ -234,10 +250,6 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     private void initBindService() {
         Log.i(TAG, "->initBindService");
         Intent intent = new Intent(this, PlayService.class);
-        if (mPlayerConnection == null) {
-            Log.i(TAG, "->mPlayerConnection");
-            mPlayerConnection = new PlayerConnection();
-        }
         bindService(intent, mPlayerConnection, BIND_AUTO_CREATE);
     }
 
@@ -261,10 +273,19 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
 
     @Override
     public void findMusicUrlResult(String url) {
-        if (!StringUtils.isStringNULL(url) && mPresenter != null) {
+        Log.d("zzw", "数据加载完毕，开始播放吧：url=" + url + ",mcontroler=" + (mController == null));
+        if (musicInfo.getState() == AppConstant.MUSIC_TYPE_PASS) {
+            binding.ivMusicPass.setVisibility(View.GONE);
+        } else if (musicInfo.getState() == AppConstant.MUSIC_TYPE_REFUSE) {
+            binding.ivMusicRefuse.setVisibility(View.GONE);
+        }
+        if (!StringUtils.isStringNULL(url)) {
             musicInfo.setUrl(url);
             isNew = true;
+            startRotation();
             mController.startPlay(url, isNew);
+        } else {
+            ToastUtils.showShort(this, R.string.play_load_url_failed);
         }
     }
 
@@ -341,19 +362,24 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         }
     };
 
-    private class PlayerConnection implements ServiceConnection {
+    private ServiceConnection mPlayerConnection = new ServiceConnection() {
+
         @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Timber.tag(TAG).i("->onServiceConnected");
-            mController = (IPlayerController) service;
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            Log.i(TAG, "->onServiceConnected");
+            mController = (IPlayerController) iBinder;
             //服务完成绑定后将UI控制器传到逻辑层
-            mController.registerIPlayViewController(mPlayerViewController);
+            mController.registerIPlayViewController(PlayActivity.this, mPlayerViewController);
+            if (mPresenter != null) {
+                showLoading();
+                mPresenter.findMusicUrl(musicInfo.getId());
+            }
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Timber.tag(TAG).i("->onServiceDisconnected");
+        public void onServiceDisconnected(ComponentName componentName) {
+            Log.i(TAG, "->onServiceDisconnected");
             mController = null;
         }
-    }
+    };
 }

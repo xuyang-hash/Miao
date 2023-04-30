@@ -214,7 +214,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
                     collectFragment = new CollectFragment();
                     transaction.add(R.id.fl_container, collectFragment, COLLECT_FRAGMENT);
                 } else {
-                    transaction.show(userFragment);
+                    transaction.show(collectFragment);
                 }
                 break;
             case USER:

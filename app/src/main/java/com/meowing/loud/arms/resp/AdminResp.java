@@ -14,6 +14,12 @@ public class AdminResp {
      */
     private String password;
 
+    public AdminResp(int aid, String username, String password) {
+        this.aid = aid;
+        this.username = username;
+        this.password = password;
+    }
+
     public void setAid(int aid) {
         this.aid = aid;
     }
