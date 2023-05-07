@@ -53,6 +53,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                     ps.setInt(1, AppConstant.MUSIC_TYPE_WAIT);
                     resultSet = ps.executeQuery();
 
+                    LocalDataManager.getInstance().clearWaitMusicList();
                     while (resultSet.next()) {
                         MusicResp musicResp = new MusicResp(resultSet.getInt(1),//id
                                 resultSet.getString(2),//name
@@ -99,7 +100,9 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                     ps = connection.prepareStatement(sql);
                     ps.setInt(1, AppConstant.MUSIC_TYPE_PASS);
                     resultSet = ps.executeQuery();
+
                     LocalDataManager.getInstance().clearAllPassMusicList();
+                    LocalDataManager.getInstance().clearAllLikeMusicList();
 
                     while (resultSet.next()) {
                         MusicResp musicResp = new MusicResp(resultSet.getInt(1),//id
@@ -148,6 +151,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                     ps.setInt(1, AppConstant.MUSIC_TYPE_PASS);
                     resultSet = ps.executeQuery();
 
+                    LocalDataManager.getInstance().clearAllRefuseMusicList();
                     while (resultSet.next()) {
                         MusicResp musicResp = new MusicResp(resultSet.getInt(1),//id
                                 resultSet.getString(2),//name

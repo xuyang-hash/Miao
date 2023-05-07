@@ -32,7 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_margin"
-        app:cardBackgroundColor="@color/purple_200"
+        app:cardBackgroundColor="@color/teal_200"
         app:cardCornerRadius="@dimen/dp_2"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"

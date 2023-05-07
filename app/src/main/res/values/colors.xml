@@ -241,6 +241,9 @@
     <color name="default_normal_text_color">#5B5B5B</color>
     <color name="default_selected_text_color">#6C6B6B</color>
 
+    <color name="music_state_wait">#F0B537</color>
+    <color name="music_state_refuse">#FF4864</color>
+
     <!--设备休眠-->
     <color name="dev_state_sleep_color">#FFB66D</color>
     <!--准备休眠-->

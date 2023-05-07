@@ -368,6 +368,7 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     protected void onDestroy() {
         super.onDestroy();
         if (mPlayerConnection != null) {
+            mController.stopPlay();
             unbindService(mPlayerConnection);
             mPlayerViewController = null;
         }

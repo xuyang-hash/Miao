@@ -99,7 +99,7 @@ public class LocalDataManager {
     /**
      * 清除本地缓存的待审核的音乐的所有数据
      */
-    public void clearWaitRefuseMusicList() {
+    public void clearWaitMusicList() {
         if (allWaitMusicList != null) {
             allWaitMusicList.clear();
         } else {
@@ -142,6 +142,32 @@ public class LocalDataManager {
             allPassMusicList.clear();
         } else {
             allPassMusicList = new ArrayList<>();
+        }
+    }
+
+    /**
+     * 手动设置收藏的音乐
+     * @param musicResp
+     */
+    public void setLikeMusic(MusicResp musicResp) {
+        if (musicResp != null) {
+            for (MusicResp resp : allLikeMusicList) {
+                if (resp.getId() == musicResp.getId()) {
+                    return;
+                }
+            }
+            allLikeMusicList.add(musicResp);
+        }
+    }
+
+    /**
+     * 清除本地缓存的已收藏的音乐的所有数据
+     */
+    public void clearAllLikeMusicList() {
+        if (allLikeMusicList != null) {
+            allLikeMusicList.clear();
+        } else {
+            allLikeMusicList = new ArrayList<>();
         }
     }
 
@@ -193,7 +219,7 @@ public class LocalDataManager {
     /**
      * 清除本地缓存的我的音乐的所有数据
      */
-    public void clearMineRefuseMusicList() {
+    public void clearMineMusicList() {
         if (allMineMusicList != null) {
             allMineMusicList.clear();
         } else {

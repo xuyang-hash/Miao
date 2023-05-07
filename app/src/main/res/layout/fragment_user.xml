@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="4"
+        app:spanCount="3"
         tools:listitem="@layout/ry_music_list_item_with_head_layout"
         app:layout_constraintTop_toBottomOf="@id/cl_account_header"
         app:layout_constraintBottom_toBottomOf="parent"/>

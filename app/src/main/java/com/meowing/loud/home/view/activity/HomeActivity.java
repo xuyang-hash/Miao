@@ -13,7 +13,6 @@ import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseActivity;
 import com.meowing.loud.arms.constant.ARouterConstant;
 import com.meowing.loud.arms.constant.AppConstant;
-import com.meowing.loud.arms.constant.MMKConstant;
 import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.databinding.ActivityHomeBinding;
 import com.meowing.loud.home.presenter.HomePresenter;
@@ -76,17 +75,15 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
      */
     private long exitTime = 0L;
 
-    private int userType = MeoSPUtil.getInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_USER);
-
     @Override
     public void initView() {
         fragmentManager = getSupportFragmentManager();
-        if (userType == AppConstant.ROLE_TYPE_USER) {
+        if (MeoSPUtil.isUserLogin()) {
             binding.bcWait.setVisibility(View.GONE);
             binding.bcRefuse.setVisibility(View.GONE);
             binding.bcCollect.setVisibility(View.VISIBLE);
             binding.bcMine.setVisibility(View.VISIBLE);
-        } else if (userType == AppConstant.ROLE_TYPE_ADMIN) {
+        } else {
             binding.bcWait.setVisibility(View.VISIBLE);
             binding.bcRefuse.setVisibility(View.VISIBLE);
             binding.bcCollect.setVisibility(View.GONE);
@@ -141,7 +138,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
             fragmentTransaction.hide(homeFragment);
         }
 
-        if (userType == AppConstant.ROLE_TYPE_USER) {
+        if (MeoSPUtil.isUserLogin()) {
             collectFragment = (CollectFragment) fragmentManager.findFragmentByTag(COLLECT_FRAGMENT);
             if (collectFragment != null) {
                 fragmentTransaction.hide(collectFragment);
@@ -151,7 +148,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomePresente
             if (userFragment != null) {
                 fragmentTransaction.hide(userFragment);
             }
-        } else if (userType == AppConstant.ROLE_TYPE_ADMIN) {
+        } else {
             waitMusicFragment = (WaitMusicFragment) fragmentManager.findFragmentByTag(WAIT_MUSIC_FRAGMENT);
             if (waitMusicFragment != null) {
                 fragmentTransaction.hide(waitMusicFragment);

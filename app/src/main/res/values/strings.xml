@@ -96,6 +96,8 @@
     <string name="music_state_pass_already_tip">该音乐已通过审核</string>
     <string name="music_state_refuse_tip">该音乐是否未通过审核？</string>
     <string name="music_state_refuse_already_tip">该音乐已未通过审核</string>
+    <string name="music_state_wait_title">审核中</string>
+    <string name="music_state_refuse_title">审核未通过</string>
     <string name="music_add_dialog_content">去选择音乐？</string>
     <string name="music_add_set_music_failed">选取音乐失败</string>
     <string name="music_add_set_music_success">选取音乐成功</string>

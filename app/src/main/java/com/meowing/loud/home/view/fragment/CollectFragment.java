@@ -21,6 +21,7 @@ import com.meowing.loud.home.di.module.HomeModule;
 import com.meowing.loud.home.presenter.HomePresenter;
 import com.meowing.loud.play.view.activity.PlayActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollectFragment extends BaseFragment<FragmentHomeBinding, HomePresenter> implements HomeContract.View, MusicSimpleAdapter.Listener {
@@ -45,16 +46,26 @@ public class CollectFragment extends BaseFragment<FragmentHomeBinding, HomePrese
 
     @Override
     public void initView(View mView) {
-        musicRespList = LocalDataManager.getInstance().getAllLikeMusicList();
         musicAdapter = new MusicSimpleAdapter();
         musicAdapter.setListener(this);
-        musicAdapter.setList(musicRespList);
         binding.ryMusicList.setAdapter(musicAdapter);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (musicRespList == null) {
+            musicRespList = new ArrayList<>();
+        } else {
+            musicRespList.clear();
+        }
+        musicRespList.addAll(LocalDataManager.getInstance().getAllLikeMusicList());
+        musicAdapter.setList(musicRespList);
     }
 
     @Override

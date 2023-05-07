@@ -56,8 +56,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                 @Override
                 public void onSuccess(Object obj) {
                     mRootView.hideLoading();
-                    MeoSPUtil.putString(MMKConstant.LOGIN_USER_NAME, username);
-                    MeoSPUtil.putInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_ADMIN);
                     mRootView.onAccountLoginResult();
                 }
 

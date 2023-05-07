@@ -131,7 +131,7 @@ public class UserModel extends BaseModel implements UserContract.Model {
             @Override
             public void run() {
                 Connection connection = JDBCUtils.getConn();
-                String sql = "select id,name,headString,username,userHeadString,goodUsers,likeUsers from Music where username = ?";
+                String sql = "select id,name,headString,username,userHeadString,goodUsers,likeUsers,state from Music where username = ? order by state";
                 PreparedStatement ps = null;
                 ResultSet resultSet = null;
                 Message msg = new Message();
@@ -140,6 +140,8 @@ public class UserModel extends BaseModel implements UserContract.Model {
                     ps = connection.prepareStatement(sql);
                     ps.setString(1, MeoSPUtil.getString(MMKConstant.LOGIN_USER_NAME));
                     resultSet = ps.executeQuery();
+
+                    LocalDataManager.getInstance().clearMineMusicList();
 
                     while (resultSet.next()) {
                         MusicResp musicResp = new MusicResp(resultSet.getInt(1),//id
@@ -150,6 +152,7 @@ public class UserModel extends BaseModel implements UserContract.Model {
                                 resultSet.getString(6),//goodUsers
                                 resultSet.getString(7)//likeUsers
                         );
+                        musicResp.setState(resultSet.getInt(8));// 审核状态
                         // 直接缓存到本地
                         LocalDataManager.getInstance().setMineMusic(musicResp);
                     }

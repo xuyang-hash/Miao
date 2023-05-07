@@ -147,9 +147,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
         } else {
             ToastUtils.showShort(getContext(), isAdd ? R.string.music_like_add_failed : R.string.music_like_cancel_failed);
             if (isAdd) {
-                musicResp.delGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+                musicResp.delLike(LocalDataManager.getInstance().getUserInfo().getUsername());
             } else {
-                musicResp.addGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+                musicResp.addLike(LocalDataManager.getInstance().getUserInfo().getUsername());
             }
             musicAdapter.notifyItemChanged(position);
         }

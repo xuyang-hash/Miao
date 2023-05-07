@@ -43,7 +43,7 @@ public class PlayModel extends BaseModel implements PlayContract.Model {
             @Override
             public void run() {
                 Connection connection = JDBCUtils.getConn();
-                String sql = "update Music set goodusers = ?, goodnums = ? where id = ?";
+                String sql = "update Music set goodUsers = ? where id = ?";
                 PreparedStatement statement = null;
                 Message msg = new Message();
                 msg.what = UPDATE_MUSIC_GOOD;
@@ -82,7 +82,7 @@ public class PlayModel extends BaseModel implements PlayContract.Model {
             @Override
             public void run() {
                 Connection connection = JDBCUtils.getConn();
-                String sql = "update Music set goodusers = ?, goodnums = ? where id = ?";
+                String sql = "update Music set likeUsers = ? where id = ?";
                 PreparedStatement statement = null;
                 Message msg = new Message();
                 msg.what = UPDATE_MUSIC_LIKE;

@@ -115,14 +115,14 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
             @Override
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();
-                mRootView.updateMusicGoodResult(true, resp, position, isLike);
+                mRootView.updateMusicLikeResult(true, resp, position, isLike);
             }
 
             @Override
             public void onFailed(int errorId) {
                 mRootView.hideLoading();
                 if (errorId == AccountCode.UPDATE_MUSIC_GOOD_FAILED.getCode()) {
-                    mRootView.updateMusicGoodResult(false, resp, position, isLike);
+                    mRootView.updateMusicLikeResult(false, resp, position, isLike);
                 } else {
                     mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
                 }

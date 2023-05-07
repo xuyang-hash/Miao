@@ -65,6 +65,12 @@ public class UserFragment extends BaseFragment<FragmentUserBinding, UserPresente
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         showLoading();
         mPresenter.findAllMineMusic();
     }
