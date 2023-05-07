@@ -13,6 +13,7 @@ import com.meowing.loud.arms.di.component.AppComponent;
 import com.meowing.loud.arms.dialog.CSeeLoadingDialog;
 import com.meowing.loud.arms.manager.LocalDataManager;
 import com.meowing.loud.arms.resp.MusicResp;
+import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.ToastUtils;
 import com.meowing.loud.databinding.FragmentHomeBinding;
 import com.meowing.loud.home.adapter.MusicAdapter;
@@ -51,6 +52,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
         musicAdapter = new MusicAdapter();
         musicAdapter.setListener(this);
         binding.ryMusicList.setAdapter(musicAdapter);
+        if (MeoSPUtil.isUserLogin()) {
+            binding.ivAdd.setVisibility(View.VISIBLE);
+        } else {
+            binding.ivAdd.setVisibility(View.GONE);
+        }
         binding.ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

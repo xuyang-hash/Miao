@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -30,7 +31,7 @@ public class MusicWithHeadAdapter extends BaseQuickAdapter<MusicResp, BaseViewHo
     protected void convert(@NonNull BaseViewHolder baseViewHolder, MusicResp musicResp) {
         ImageView ivMusicHead = baseViewHolder.getView(R.id.iv_music_head);
         TextView tvMusicName = baseViewHolder.getView(R.id.tv_music_name);
-        CardView cslMusicLayout = baseViewHolder.getView(R.id.csl_music_info);
+        ConstraintLayout cslMusicLayout = baseViewHolder.getView(R.id.csl_music_info);
 
         if (!StringUtils.isStringNULL(musicResp.getHeadString())) {
             ivMusicHead.setImageBitmap(ArmsUtils.toBitmapFromString(musicResp.getHeadString()));

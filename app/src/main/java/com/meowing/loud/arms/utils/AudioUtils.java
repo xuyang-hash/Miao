@@ -3,59 +3,73 @@ package com.meowing.loud.arms.utils;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.DocumentsContract;
+import android.os.Build;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class AudioUtils {
 
     private static String getFilePathFromUri(Context context, Uri uri) {
         String filePath = null;
 
-        if (uri != null) {
-            if (DocumentsContract.isDocumentUri(context, uri)) {
-                // 处理 Document 类型的 URI
-                String documentId = DocumentsContract.getDocumentId(uri);
-                String[] split = documentId.split(":");
-                String type = split[0];
-
-                if ("primary".equalsIgnoreCase(type)) {
-                    // 如果是 primary 类型，表示在内部存储上
-                    filePath = Environment.getExternalStorageDirectory() + "/" + split[1];
-                } else {
-                    // 否则，需要通过 DocumentProvider 查询实际路径
-                    // 这里可以根据不同的类型选择不同的处理方式
-                    // ...
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try (ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "r")) {
+                if (pfd != null) {
+                    FileDescriptor fd = pfd.getFileDescriptor();
+                    FileInputStream inputStream = new FileInputStream(fd);
+                    byte[] bytes = readAllBytes(inputStream);
+                    filePath = saveByteArrayToFile(context, bytes, "audio");
                 }
-            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-                // 处理 content 类型的 URI
-                String[] projection = { MediaStore.Images.Media.DATA };
-                Cursor cursor = null;
-
-                try {
-                    cursor = context.getContentResolver().query(uri, projection, null, null, null);
-                    if (cursor != null && cursor.moveToFirst()) {
-                        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        filePath = cursor.getString(columnIndex);
-                    }
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                }
-            } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-                // 处理 file 类型的 URI
-                filePath = uri.getPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            String[] projection = {MediaStore.Audio.Media.DATA};
+            Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+                filePath = cursor.getString(columnIndex);
+                cursor.close();
             }
         }
 
+        return filePath;
+    }
+
+    private static byte[] readAllBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int n;
+        while ((n = inputStream.read(buffer)) != -1) {
+            output.write(buffer, 0, n);
+        }
+        return output.toByteArray();
+    }
+
+    private static String saveByteArrayToFile(Context context, byte[] data, String fileName) {
+        String filePath = null;
+        try {
+            File dir = context.getExternalFilesDir(null);
+            if (dir == null) {
+                throw new IOException("External storage is not available.");
+            }
+            File file = new File(dir, fileName);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(data);
+            outputStream.close();
+            filePath = file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return filePath;
     }
 
@@ -103,14 +117,8 @@ public class AudioUtils {
 
     /**
      * 将音频二进制数组转为base64字符串
-     * @param filePath
      * @return
      */
-    private static String toAudioStringFromByte(String filePath) {
-        byte[] bytes = readAudioFileToByteArray(filePath);
-        return Base64.encodeToString(bytes, Base64.DEFAULT);
-    }
-
     public static String toAudioStringFromFile(Context context, Uri uri){
         String filePath = getFilePathFromUri(context, uri);
         if (filePath != null) {

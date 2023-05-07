@@ -23,6 +23,7 @@ import com.meowing.loud.arms.dialog.CSeeLoadingDialog;
 import com.meowing.loud.arms.manager.LocalDataManager;
 import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.arms.utils.ArmsUtils;
+import com.meowing.loud.arms.utils.AudioUtils;
 import com.meowing.loud.arms.utils.DialogUtil;
 import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.arms.utils.ToastUtils;
@@ -161,7 +162,7 @@ public class HomeAddMusicActivity extends BaseActivity<ActivityHomeAddMusicLayou
         if (requestCode == REQUEST_CODE_FILE_PICKER_AUDIO) {
             if (resultCode == RESULT_OK) {
                 Uri uri = data.getData(); // 获取选择的文件的uri
-                musicResp.setUrl(uri.toString());
+                musicResp.setUrl(AudioUtils.toAudioStringFromFile(this, uri));
                 // 文件上传成功
                 ToastUtils.showShort(HomeAddMusicActivity.this, R.string.music_add_set_music_success);
 //                updateFireDatabase(uri);
