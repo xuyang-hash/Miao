@@ -2,6 +2,7 @@ package com.meowing.loud.home.view.fragment;
 
 import static com.meowing.loud.arms.constant.ReflectConstant.LOGIN_ACTIVITY;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
@@ -30,6 +31,11 @@ import com.meowing.loud.home.presenter.HomePresenter;
 import com.meowing.loud.home.view.activity.HomeAddMusicActivity;
 import com.meowing.loud.login.view.activity.LoginActivity;
 import com.meowing.loud.play.view.activity.PlayActivity;
+import com.scwang.smart.refresh.layout.api.RefreshFooter;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
+import com.scwang.smart.refresh.layout.listener.OnMultiListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +43,11 @@ import java.util.List;
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresenter> implements HomeContract.View, MusicAdapter.Listener{
 
     private MusicAdapter musicAdapter;
+
+    /**
+     * 下拉刷新时间
+     */
+    private long pullRefreshTime;
 
     private List<MusicResp> musicRespList = new ArrayList<>();
 
@@ -72,6 +83,68 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
                 } else {
                     outLogoutDialog();
                 }
+            }
+        });
+        binding.smlDevice.setOnMultiListener(new OnMultiListener() {
+            @Override
+            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onHeaderFinish(RefreshHeader header, boolean success) {
+
+            }
+
+            @Override
+            public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterReleased(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterFinish(RefreshFooter footer, boolean success) {
+
+            }
+
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                binding.smlDevice.finishRefresh();
+                if (System.currentTimeMillis() - pullRefreshTime < AppConstant.PULL_REFRESH_TIME_INTERVAL) {
+                    ToastUtils.showShort(getContext(), R.string.common_pull_refresh_frequently);
+                    return;
+                }
+                mPresenter.findAllPassMusicData();
+            }
+
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+
             }
         });
     }
@@ -112,12 +185,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
     public void findAllPassMusicResult() {
         musicRespList.clear();
         musicRespList.addAll(LocalDataManager.getInstance().getAllPassMusicList());
+        musicAdapter.setList(musicRespList);
         if (musicRespList.isEmpty()) {
             binding.tvEmpty.setVisibility(View.VISIBLE);
         } else {
             binding.tvEmpty.setVisibility(View.GONE);
-            musicAdapter.setList(musicRespList);
         }
+        pullRefreshTime = System.currentTimeMillis();
     }
 
     @Override
@@ -170,6 +244,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomePresente
     public void updateMusicLikeResult(boolean isSuccess, MusicResp musicResp, int position, boolean isAdd) {
         if (isSuccess) {
             ToastUtils.showShort(getContext(), isAdd ? R.string.music_like_add_success : R.string.music_like_cancel_success);
+            LocalDataManager.getInstance().setLikeMusic(musicResp, isAdd);
         } else {
             ToastUtils.showShort(getContext(), isAdd ? R.string.music_like_add_failed : R.string.music_like_cancel_failed);
             if (isAdd) {

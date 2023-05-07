@@ -233,7 +233,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                 msg.what = UPDATE_MUSIC_LIKE;
                 try {
                     statement = connection.prepareStatement(sql);
-                    statement.setString(1, musicResp.getGoogUsers());
+                    statement.setString(1, musicResp.getLikeUsers());
                     statement.setInt(2, musicResp.getId());
                     int rs = statement.executeUpdate();
                     if (rs > 0) {

@@ -50,8 +50,7 @@ public class PlayModel extends BaseModel implements PlayContract.Model {
                 try {
                     statement = connection.prepareStatement(sql);
                     statement.setString(1, musicResp.getGoogUsers());
-                    statement.setInt(2, musicResp.getGoodNum());
-                    statement.setInt(3, musicResp.getId());
+                    statement.setInt(2, musicResp.getId());
                     int rs = statement.executeUpdate();
                     if (rs > 0) {
                         msg.arg1 = SuccessCode.SUCCESS.getCode();
@@ -88,9 +87,8 @@ public class PlayModel extends BaseModel implements PlayContract.Model {
                 msg.what = UPDATE_MUSIC_LIKE;
                 try {
                     statement = connection.prepareStatement(sql);
-                    statement.setString(1, musicResp.getGoogUsers());
-                    statement.setInt(2, musicResp.getGoodNum());
-                    statement.setInt(3, musicResp.getId());
+                    statement.setString(1, musicResp.getLikeUsers());
+                    statement.setInt(2, musicResp.getId());
                     int rs = statement.executeUpdate();
                     if (rs > 0) {
                         msg.arg1 = SuccessCode.SUCCESS.getCode();

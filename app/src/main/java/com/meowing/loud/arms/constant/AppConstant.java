@@ -33,6 +33,11 @@ public class AppConstant {
      */
     public static final int MUSIC_TYPE_MINE= 3;
 
+    /**
+     * 刷新间隔3秒
+     */
+    public static final long PULL_REFRESH_TIME_INTERVAL = 3000;
+
     public interface Switch {
         int Close = 0;
         int Open = 1;

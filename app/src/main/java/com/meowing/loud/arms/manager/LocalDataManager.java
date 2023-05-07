@@ -149,14 +149,23 @@ public class LocalDataManager {
      * 手动设置收藏的音乐
      * @param musicResp
      */
-    public void setLikeMusic(MusicResp musicResp) {
+    public void setLikeMusic(MusicResp musicResp, boolean isAdd) {
         if (musicResp != null) {
-            for (MusicResp resp : allLikeMusicList) {
-                if (resp.getId() == musicResp.getId()) {
-                    return;
+            if (isAdd) {
+                for (MusicResp resp : allLikeMusicList) {
+                    if (resp.getId() == musicResp.getId()) {
+                        return;
+                    }
+                }
+                allLikeMusicList.add(musicResp);
+            } else {
+                for (MusicResp resp : allLikeMusicList) {
+                    if (resp.getId() == musicResp.getId()) {
+                        allLikeMusicList.remove(resp);
+                        return;
+                    }
                 }
             }
-            allLikeMusicList.add(musicResp);
         }
     }
 
