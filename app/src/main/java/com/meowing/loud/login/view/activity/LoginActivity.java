@@ -57,11 +57,11 @@ public class LoginActivity extends BaseActivity<ActivityLoginLayoutBinding, Logi
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 String tipsTitle = getString(R.string.account_login_type_tips);
                 if (i == binding.rbLoginTypeUser.getId() && binding.rbLoginTypeUser.isChecked()) {
-                    ToastUtils.showShort(LoginActivity.this, tipsTitle + getString(R.string.account_login_type_user_title));
                     isUserLogin = true;
+                    ToastUtils.showShort(LoginActivity.this, tipsTitle + getString(R.string.account_login_type_user_title));
                 } else if (i == binding.rbLoginTypeAdmin.getId() && binding.rbLoginTypeAdmin.isChecked()) {
-                    ToastUtils.showShort(LoginActivity.this, tipsTitle + getString(R.string.account_login_type_admin_title));
                     isUserLogin = false;
+                    ToastUtils.showShort(LoginActivity.this, tipsTitle + getString(R.string.account_login_type_admin_title));
                 }
             }
         });

@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/half_of_normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
         app:cardBackgroundColor="@color/purple_200"
         app:cardCornerRadius="@dimen/dp_2"

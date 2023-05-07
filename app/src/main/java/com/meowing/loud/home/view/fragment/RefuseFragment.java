@@ -1,17 +1,24 @@
 package com.meowing.loud.home.view.fragment;
 
+import static com.meowing.loud.arms.constant.ReflectConstant.LOGIN_ACTIVITY;
+
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ReflectUtils;
+import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseFragment;
 import com.meowing.loud.arms.constant.AppConstant;
 import com.meowing.loud.arms.di.component.AppComponent;
 import com.meowing.loud.arms.dialog.CSeeLoadingDialog;
+import com.meowing.loud.arms.dialog.CustomConfirmDialog;
 import com.meowing.loud.arms.manager.LocalDataManager;
 import com.meowing.loud.arms.resp.MusicResp;
+import com.meowing.loud.arms.utils.DialogUtil;
 import com.meowing.loud.arms.utils.ToastUtils;
 import com.meowing.loud.databinding.FragmentHomeBinding;
 import com.meowing.loud.home.adapter.MusicSimpleAdapter;
@@ -19,8 +26,10 @@ import com.meowing.loud.home.contract.HomeContract;
 import com.meowing.loud.home.di.component.DaggerHomeComponent;
 import com.meowing.loud.home.di.module.HomeModule;
 import com.meowing.loud.home.presenter.HomePresenter;
+import com.meowing.loud.login.view.activity.LoginActivity;
 import com.meowing.loud.play.view.activity.PlayActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RefuseFragment extends BaseFragment<FragmentHomeBinding, HomePresenter> implements HomeContract.View, MusicSimpleAdapter.Listener{
@@ -48,12 +57,33 @@ public class RefuseFragment extends BaseFragment<FragmentHomeBinding, HomePresen
         musicAdapter = new MusicSimpleAdapter();
         musicAdapter.setListener(this);
         binding.ryMusicList.setAdapter(musicAdapter);
+        binding.ivAdd.setImageDrawable(getResources().getDrawable(R.mipmap.ic_common_setting));
+        binding.ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                outLogoutDialog();
+            }
+        });
+    }
+
+    private void outLogoutDialog() {
+        new DialogUtil(getContext(), getString(R.string.common_dialog_title), getString(R.string.me_account_logout_title))
+                .setDialogCallback(new CustomConfirmDialog.DialogCallback() {
+                    @Override
+                    public void onConfirm() {
+                        LocalDataManager.getInstance().clear(true);
+                        //关闭除了登录页面的其他页面
+                        Class className = ReflectUtils.reflect(LOGIN_ACTIVITY).get();
+                        ActivityUtils.finishOtherActivities(className);
+                        //跳转到登录页面
+                        navigator(LoginActivity.class);
+                    }
+                }).show();
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        showLoading();
-        mPresenter.findAllRefuseMusicData();
+
     }
 
     @Override
@@ -62,8 +92,20 @@ public class RefuseFragment extends BaseFragment<FragmentHomeBinding, HomePresen
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        showLoading();
+        mPresenter.findAllRefuseMusicData();
+    }
+
+    @Override
     public void findAllRefuseMusicResult() {
-        musicRespList = LocalDataManager.getInstance().getAllLikeMusicList();
+        if (musicRespList == null) {
+            musicRespList = new ArrayList<>();
+        } else {
+            musicRespList.clear();
+        }
+        musicRespList.addAll(LocalDataManager.getInstance().getAllLikeMusicList());
         musicAdapter.setList(musicRespList);
     }
 

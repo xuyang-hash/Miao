@@ -1,5 +1,7 @@
 package com.meowing.loud.me.view.Activity;
 
+import static com.meowing.loud.arms.constant.ReflectConstant.LOGIN_ACTIVITY;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +12,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ReflectUtils;
 import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseActivity;
 import com.meowing.loud.arms.di.component.AppComponent;
@@ -136,6 +140,9 @@ public class UserCenterActivity extends BaseActivity<ActivityUserCenterLayoutBin
      */
     private void logout() {
         LocalDataManager.getInstance().clear(true);
+        //关闭除了登录页面的其他页面
+        Class className = ReflectUtils.reflect(LOGIN_ACTIVITY).get();
+        ActivityUtils.finishOtherActivities(className);
         //跳转到登录页面
         navigator(LoginActivity.class, true);
     }

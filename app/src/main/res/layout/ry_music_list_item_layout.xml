@@ -10,7 +10,6 @@
         android:layout_width="@dimen/static_image_head_view_size"
         android:layout_height="@dimen/static_image_head_view_size"
         android:layout_marginStart="@dimen/half_of_normal_margin"
-        android:layout_marginTop="@dimen/half_of_normal_margin"
         android:src="@mipmap/ic_login_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
