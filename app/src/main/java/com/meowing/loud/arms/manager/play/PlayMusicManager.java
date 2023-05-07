@@ -3,9 +3,10 @@ package com.meowing.loud.arms.manager.play;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Binder;
 import android.util.Log;
+
+import com.meowing.loud.arms.utils.AudioUtils;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -47,7 +48,7 @@ public class PlayMusicManager extends Binder implements IPlayerController {
             initMediaPlayer();
             try {
                 Log.i(TAG, url);
-                mPlayer.setDataSource(context, Uri.parse(url));
+                mPlayer.setDataSource(context, AudioUtils.toUriFromAudioString(url));
                 mPlayer.prepare();
                 mPlayer.start();
                 startTimeTask();

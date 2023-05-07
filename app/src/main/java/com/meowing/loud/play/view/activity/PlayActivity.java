@@ -24,11 +24,13 @@ import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseActivity;
 import com.meowing.loud.arms.constant.AppConstant;
 import com.meowing.loud.arms.di.component.AppComponent;
+import com.meowing.loud.arms.dialog.BaseCustomDialog;
 import com.meowing.loud.arms.manager.LocalDataManager;
 import com.meowing.loud.arms.manager.play.IPlayerController;
 import com.meowing.loud.arms.manager.play.IPlayerViewController;
 import com.meowing.loud.arms.manager.play.PlayService;
 import com.meowing.loud.arms.resp.MusicResp;
+import com.meowing.loud.arms.utils.DialogUtil;
 import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.arms.utils.ToastUtils;
@@ -200,7 +202,11 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         binding.ivEditGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.updateMusicGood(musicInfo, binding.ivEditGood.isSelected());
+                if (MeoSPUtil.isUserLogin()) {
+                    mPresenter.updateMusicGood(musicInfo, binding.ivEditGood.isSelected());
+                } else {
+                    ToastUtils.showShort(PlayActivity.this, R.string.account_admin_good_like_tips);
+                }
             }
         });
 
@@ -208,7 +214,11 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         binding.ivEditLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.updateMusicLike(musicInfo, binding.ivEditLike.isSelected());
+                if (MeoSPUtil.isUserLogin()) {
+                    mPresenter.updateMusicLike(musicInfo, binding.ivEditLike.isSelected());
+                } else {
+                    ToastUtils.showShort(PlayActivity.this, R.string.account_admin_good_like_tips);
+                }
             }
         });
 
@@ -216,7 +226,11 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         binding.ivMusicPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.updateMusicState(musicInfo, true);
+                if (musicInfo.getState() == AppConstant.MUSIC_TYPE_PASS) {
+                    ToastUtils.showShort(PlayActivity.this, R.string.music_state_pass_already_tip);
+                } else {
+                    outUpdateStateDialog(true);
+                }
             }
         });
 
@@ -224,15 +238,41 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         binding.ivMusicRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.updateMusicState(musicInfo, false);
+                if (musicInfo.getState() == AppConstant.MUSIC_TYPE_PASS) {
+                    ToastUtils.showShort(PlayActivity.this, R.string.music_state_refuse_already_tip);
+                } else {
+                    outUpdateStateDialog(false);
+                }
             }
         });
+    }
+
+    /**
+     * 弹出审核音乐确认弹窗
+     * @param isPass
+     */
+    private void outUpdateStateDialog(boolean isPass) {
+        new DialogUtil(this, getString(R.string.common_dialog_title),
+                getString(isPass ? R.string.music_state_pass_tip : R.string.music_state_refuse_tip),
+                getString(R.string.common_cancel), getString(R.string.common_confirm), false)
+                .setDialogCallback(new BaseCustomDialog.DialogCallback() {
+                    @Override
+                    public void onConfirm() {
+                        showLoading();
+                        mPresenter.updateMusicState(musicInfo, isPass);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        finish();
+                    }
+                }).show();
     }
 
     @Override
     public void updateMusicStateResult(boolean isSuccess, MusicResp resp, boolean isPass) {
         if (isSuccess) {
-            ToastUtils.showShort(this, R.string.music_state_pass_success);
+            ToastUtils.showShort(this, isPass ? R.string.music_state_pass_already_tip : R.string.music_state_refuse_already_tip);
         }
     }
 
@@ -267,6 +307,14 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         isNew = true;
         mPosition = newPosition;
         musicInfo = musicList.get(mPosition);
+        if (musicInfo != null) {
+            binding.tvMusicName.setText(musicInfo.getName());
+            binding.tvMusicUsername.setText(musicInfo.getUsername());
+            binding.tvEditGood.setText(musicInfo.getGoodNum() + "");
+            binding.ivEditGood.setSelected(musicInfo.isGoodContainMe());
+            binding.tvEditLike.setText(musicInfo.getLikeNum() + "");
+            binding.ivEditLike.setSelected(musicInfo.isLikeContainMe());
+        }
         showLoading();
         mPresenter.findMusicUrl(musicInfo.getId());
     }
@@ -274,11 +322,6 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
     @Override
     public void findMusicUrlResult(String url) {
         Log.d("zzw", "数据加载完毕，开始播放吧：url=" + url + ",mcontroler=" + (mController == null));
-        if (musicInfo.getState() == AppConstant.MUSIC_TYPE_PASS) {
-            binding.ivMusicPass.setVisibility(View.GONE);
-        } else if (musicInfo.getState() == AppConstant.MUSIC_TYPE_REFUSE) {
-            binding.ivMusicRefuse.setVisibility(View.GONE);
-        }
         if (!StringUtils.isStringNULL(url)) {
             musicInfo.setUrl(url);
             isNew = true;

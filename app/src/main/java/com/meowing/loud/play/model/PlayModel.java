@@ -116,7 +116,7 @@ public class PlayModel extends BaseModel implements PlayContract.Model {
 
     @Override
     public void updateMusicState(int musicId, boolean isPass, Listener listener) {
-        listenerHashMap.put(UPDATE_MUSIC_LIKE, listener);
+        listenerHashMap.put(UPDATE_MUSIC_STATE, listener);
         new Thread() {
             @Override
             public void run() {
@@ -124,7 +124,7 @@ public class PlayModel extends BaseModel implements PlayContract.Model {
                 String sql = "update Music set state = ? where id = ?";
                 PreparedStatement statement = null;
                 Message msg = new Message();
-                msg.what = UPDATE_MUSIC_LIKE;
+                msg.what = UPDATE_MUSIC_STATE;
                 try {
                     statement = connection.prepareStatement(sql);
                     statement.setInt(1, isPass ? AppConstant.MUSIC_TYPE_PASS : AppConstant.MUSIC_TYPE_REFUSE);
@@ -163,7 +163,7 @@ public class PlayModel extends BaseModel implements PlayContract.Model {
                 PreparedStatement statement = null;
                 ResultSet resultSet = null;
                 Message msg = new Message();
-                msg.what = UPDATE_MUSIC_LIKE;
+                msg.what = FIND_MUSIC_URL;
                 try {
                     statement = connection.prepareStatement(sql);
                     statement.setInt(1, musicId);

@@ -99,6 +99,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                     ps = connection.prepareStatement(sql);
                     ps.setInt(1, AppConstant.MUSIC_TYPE_PASS);
                     resultSet = ps.executeQuery();
+                    LocalDataManager.getInstance().clearAllPassMusicList();
 
                     while (resultSet.next()) {
                         MusicResp musicResp = new MusicResp(resultSet.getInt(1),//id

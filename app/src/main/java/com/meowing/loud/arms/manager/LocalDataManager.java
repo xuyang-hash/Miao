@@ -97,6 +97,17 @@ public class LocalDataManager {
     }
 
     /**
+     * 清除本地缓存的待审核的音乐的所有数据
+     */
+    public void clearWaitRefuseMusicList() {
+        if (allWaitMusicList != null) {
+            allWaitMusicList.clear();
+        } else {
+            allWaitMusicList = new ArrayList<>();
+        }
+    }
+
+    /**
      * 获取所有审核通过的音乐（无uri）
      * @return
      */
@@ -124,6 +135,17 @@ public class LocalDataManager {
     }
 
     /**
+     * 清除本地缓存的审核通过的音乐的所有数据
+     */
+    public void clearAllPassMusicList() {
+        if (allPassMusicList != null) {
+            allPassMusicList.clear();
+        } else {
+            allPassMusicList = new ArrayList<>();
+        }
+    }
+
+    /**
      * 获取所有审核未通过的音乐
      * @return
      */
@@ -141,6 +163,17 @@ public class LocalDataManager {
         }
     }
 
+    /**
+     * 清除本地缓存的审核未通过的音乐的所有数据
+     */
+    public void clearAllRefuseMusicList() {
+        if (allRefuseMusicList != null) {
+            allRefuseMusicList.clear();
+        } else {
+            allRefuseMusicList = new ArrayList<>();
+        }
+    }
+
     public List<MusicResp> getAllLikeMusicList() {
         return allLikeMusicList;
     }
@@ -152,6 +185,19 @@ public class LocalDataManager {
     public void setMineMusic(MusicResp musicResp) {
         if (musicResp != null) {
             allMineMusicList.add(musicResp);
+        }
+    }
+
+
+
+    /**
+     * 清除本地缓存的我的音乐的所有数据
+     */
+    public void clearMineRefuseMusicList() {
+        if (allMineMusicList != null) {
+            allMineMusicList.clear();
+        } else {
+            allMineMusicList = new ArrayList<>();
         }
     }
 

@@ -12,7 +12,9 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.meowing.loud.R;
 import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.arms.utils.ArmsUtils;
+import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
+import com.meowing.loud.arms.utils.ToastUtils;
 
 public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
 
@@ -67,16 +69,24 @@ public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
         ivGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ivGood.setSelected(!ivGood.isSelected());
-                listener.updateGoodState(baseViewHolder.getPosition(), ivGood.isSelected());
+                if (MeoSPUtil.isUserLogin()) {
+                    ivGood.setSelected(!ivGood.isSelected());
+                    listener.updateGoodState(baseViewHolder.getPosition(), ivGood.isSelected());
+                } else {
+                    ToastUtils.showShort(getContext(), R.string.account_admin_good_like_tips);
+                }
             }
         });
 
         ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ivLike.setSelected(!ivLike.isSelected());
-                listener.updateLikeState(baseViewHolder.getPosition(), ivLike.isSelected());
+                if (MeoSPUtil.isUserLogin()) {
+                    ivLike.setSelected(!ivLike.isSelected());
+                    listener.updateLikeState(baseViewHolder.getPosition(), ivLike.isSelected());
+                } else {
+                    ToastUtils.showShort(getContext(), R.string.account_admin_good_like_tips);
+                }
             }
         });
     }
