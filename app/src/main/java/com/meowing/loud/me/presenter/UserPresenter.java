@@ -11,6 +11,7 @@ import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
+import com.meowing.loud.login.model.LoginModel;
 import com.meowing.loud.me.contract.UserContract;
 
 import javax.inject.Inject;
@@ -86,5 +87,26 @@ public class UserPresenter extends BasePresenter<UserContract.Model, UserContrac
                 }
             });
         }
+    }
+
+    /**
+     * 更新用户密码
+     * @param username
+     * @param password
+     */
+    public void updatePass(String username, String password) {
+        mModel.updatePass(username, password, new UserContract.Model.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.updatePassResult();
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+            }
+        });
     }
 }

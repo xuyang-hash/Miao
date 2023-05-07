@@ -22,6 +22,10 @@ public interface UserContract {
         default void findAllMineMusicResult(boolean isSuccess) {
 
         }
+
+        default void updatePassResult() {
+
+        }
     }
 
     interface Model extends IModel {
@@ -45,6 +49,15 @@ public interface UserContract {
 
         int FIND_ALL_MINE_MUSIC = 2;
         void findAllMineMusic(String username, Listener listener);
+
+        int UPDATE_PASS = 3;
+
+        /**
+         * 更改密码
+         * @param username  用户名
+         * @param password  需要更新的密码
+         */
+        void updatePass(String username, String password, Listener listener);
 
         interface Listener {
             void onSuccess(Object obj);

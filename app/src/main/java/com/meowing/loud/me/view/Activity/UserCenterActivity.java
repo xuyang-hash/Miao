@@ -68,6 +68,7 @@ public class UserCenterActivity extends BaseActivity<ActivityUserCenterLayoutBin
             @Override
             public void onItemClickListener(int resId) {
                 // 修改密码
+                EditPwdActivity.start(UserCenterActivity.this);
             }
         });
 

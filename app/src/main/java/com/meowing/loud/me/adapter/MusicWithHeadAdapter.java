@@ -57,8 +57,13 @@ public class MusicWithHeadAdapter extends BaseQuickAdapter<MusicResp, BaseViewHo
         } else {
             llGoodLike.setVisibility(View.GONE);
             tvState.setVisibility(View.VISIBLE);
-            tvState.setText(musicResp.getState() == AppConstant.MUSIC_TYPE_WAIT ? R.string.music_state_wait_title : R.string.music_state_refuse_title);
-            tvState.setTextColor(getContext().getResources().getColor(musicResp.getState() == AppConstant.MUSIC_TYPE_WAIT ? R.color.music_state_wait : R.color.music_state_refuse));
+            if (musicResp.getState() == AppConstant.MUSIC_TYPE_WAIT) {
+                tvState.setText(R.string.music_state_wait_title);
+                tvState.setTextColor(getContext().getResources().getColor(R.color.music_state_wait));
+            } else if (musicResp.getState() == AppConstant.MUSIC_TYPE_REFUSE) {
+                tvState.setText(R.string.music_state_refuse_title);
+                tvState.setTextColor(getContext().getResources().getColor(R.color.music_state_refuse));
+            }
         }
 
         cslMusicLayout.setOnClickListener(new View.OnClickListener() {
