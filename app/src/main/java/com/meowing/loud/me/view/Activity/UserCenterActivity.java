@@ -72,6 +72,13 @@ public class UserCenterActivity extends BaseActivity<ActivityUserCenterLayoutBin
             }
         });
 
+        binding.itemChangeConfident.setItemClickListener(new CommonItemWidget.ItemClickListener() {
+            @Override
+            public void onItemClickListener(int resId) {
+                EditConfidentActivity.start(UserCenterActivity.this);
+            }
+        });
+
         binding.tvLoginOut.setOnClickListener(this);
     }
 

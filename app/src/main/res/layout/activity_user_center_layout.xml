@@ -86,11 +86,26 @@
         app:switchVisible="false"
         app:title="@string/me_account_edit_pwd" />
 
+    <com.meowing.loud.arms.widget.controls.CommonItemWidget
+        android:id="@+id/item_change_confident"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:background="@color/white"
+        android:paddingStart="@dimen/half_of_normal_padding"
+        app:headerIconVisible="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_change_password"
+        app:switchVisible="false"
+        app:title="@string/account_edit_confident_title" />
+
     <TextView
         android:id="@+id/tv_login_out"
         style="@style/CommonButton"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_72"
+        android:layout_height="@dimen/dp_52"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
         android:layout_marginBottom="@dimen/dp_50"
         android:gravity="center"
         android:text="@string/me_account_logout"
