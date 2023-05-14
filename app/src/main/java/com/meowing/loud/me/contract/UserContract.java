@@ -26,6 +26,10 @@ public interface UserContract {
         default void updatePassResult() {
 
         }
+
+        default void setQuestionAndAnswerResult() {
+
+        }
     }
 
     interface Model extends IModel {
@@ -58,6 +62,18 @@ public interface UserContract {
          * @param password  需要更新的密码
          */
         void updatePass(String username, String password, Listener listener);
+
+        int SET_Q_AND_A = 4;
+
+        /**
+         * 设置密保问题和答案
+         * @param username      用户名
+         * @param question1     密保问题1
+         * @param answer1       密保答案1
+         * @param question2     密保问题2
+         * @param answer2       密保答案2
+         */
+        void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2, Listener listener);
 
         interface Listener {
             void onSuccess(Object obj);

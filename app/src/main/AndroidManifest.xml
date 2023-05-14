@@ -56,6 +56,10 @@
             android:name=".play.view.activity.PlayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".me.view.Activity.EditConfidentActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".arms.manager.play.PlayService"

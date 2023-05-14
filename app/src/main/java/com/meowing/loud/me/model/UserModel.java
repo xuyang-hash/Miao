@@ -17,6 +17,7 @@ import com.meowing.loud.arms.resp.MusicResp;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.JDBCUtils;
 import com.meowing.loud.arms.utils.MeoSPUtil;
+import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.me.contract.UserContract;
 
 import java.sql.Connection;
@@ -198,6 +199,55 @@ public class UserModel extends BaseModel implements UserContract.Model {
                 } catch (Exception e) {
                     e.printStackTrace();
                     msg.arg1 = AccountCode.UPDATE_PASS_CONNECT_ERROR.getCode();
+                } finally {
+                    try {
+                        connection.close();
+                        statement.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                handler.handleMessage(msg);
+            }
+        }.start();
+    }
+
+    @Override
+    public void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2, Listener listener) {
+        listenerHashMap.put(SET_Q_AND_A, listener);
+        new Thread() {
+            @Override
+            public void run() {
+                Connection connection = JDBCUtils.getConn();
+                String sql;
+                if (StringUtils.isStringNULL(answer2)) {
+                    sql = "update User set question1 = ?, answer1 = ? where username = ?";
+                } else {
+                    sql = "update User set question1 = ?, answer1 = ?, question2 = ?, answer2 = ? where username = ?";
+                }
+
+                PreparedStatement statement = null;
+                Message msg = new Message();
+                msg.what = SET_Q_AND_A;
+                try {
+                    statement = connection.prepareStatement(sql);
+                    statement.setString(1, question1);
+                    statement.setString(2, answer1);
+                    if (StringUtils.isStringNULL(answer2)) {
+                        statement.setString(3, username);
+                    } else {
+                        statement.setString(3, question2);
+                        statement.setString(4, answer2);
+                        statement.setString(5, username);
+                    }
+                    if (statement.executeUpdate() > 0) {
+                        msg.arg1 = SuccessCode.SUCCESS.getCode();
+                    } else {
+                        msg.arg1 = AccountCode.SET_QUESTION_AND_ANSWER_FAILED.getCode();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg.arg1 = AccountCode.SET_QUESTION_AND_ANSWER_CONNECT_ERROR.getCode();
                 } finally {
                     try {
                         connection.close();

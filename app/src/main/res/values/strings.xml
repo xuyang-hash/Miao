@@ -28,6 +28,7 @@
     <string name="account_reset_pwd_mate_user_success">匹配成功</string>
     <string name="account_reset_pwd_mate_user_error">用户匹配异常，请稍后重试</string>
     <string name="account_reset_pwd_success">修改密码成功</string>
+    <string name="account_edit_confident_title">设置密保</string>
     <string name="account_edit_pwd_title">更改密码</string>
     <string name="account_reset_pwd_old_hint">请输入原密码</string>
     <string name="account_reset_pwd_old_error_tip">原密码不正确</string>

@@ -11,7 +11,6 @@ import com.meowing.loud.arms.di.scope.ActivityScope;
 import com.meowing.loud.arms.resp.UserResp;
 import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
-import com.meowing.loud.login.model.LoginModel;
 import com.meowing.loud.me.contract.UserContract;
 
 import javax.inject.Inject;
@@ -100,6 +99,30 @@ public class UserPresenter extends BasePresenter<UserContract.Model, UserContrac
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();
                 mRootView.updatePassResult();
+            }
+
+            @Override
+            public void onFailed(int errorId) {
+                mRootView.hideLoading();
+                mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
+            }
+        });
+    }
+
+    /**
+     * 设置密保问题
+     *
+     * @param question1
+     * @param answer1
+     * @param question2
+     * @param answer2
+     */
+    public void setQuestionAndAnswer(String username, String question1, String answer1, String question2, String answer2) {
+        mModel.setQuestionAndAnswer(username, question1, answer1, question2, answer2, new UserContract.Model.Listener() {
+            @Override
+            public void onSuccess(Object obj) {
+                mRootView.hideLoading();
+                mRootView.setQuestionAndAnswerResult();
             }
 
             @Override
