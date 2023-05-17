@@ -32,8 +32,8 @@ public interface PlayContract {
         }
 
         /**
-         * 更新收藏结果
-         * @param isLike true为收藏，false为取消收藏
+         * 更新审核状态
+         * @param isPass true为通过，false为拒绝
          */
         default void updateMusicStateResult(boolean isSuccess, MusicResp resp, boolean isPass) {
 

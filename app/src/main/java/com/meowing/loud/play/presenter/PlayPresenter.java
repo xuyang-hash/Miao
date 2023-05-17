@@ -65,18 +65,18 @@ public class PlayPresenter extends BasePresenter<PlayContract.Model, PlayContrac
      */
     public void updateMusicLike(MusicResp resp, boolean isAdd) {
         String username = MeoSPUtil.getString(MMKConstant.LOGIN_USER_NAME);
-        mModel.updateMusicGood(username, resp, new PlayContract.Model.Listener() {
+        mModel.updateMusicLike(username, resp, new PlayContract.Model.Listener() {
             @Override
             public void onSuccess(Object obj) {
                 mRootView.hideLoading();
-                mRootView.updateMusicGoodResult(true, resp, isAdd);
+                mRootView.updateMusicLikeResult(true, resp, isAdd);
             }
 
             @Override
             public void onFailed(int errorId) {
                 mRootView.hideLoading();
                 if (errorId == AccountCode.UPDATE_MUSIC_GOOD_FAILED.getCode()) {
-                    mRootView.updateMusicGoodResult(false, resp, isAdd);
+                    mRootView.updateMusicLikeResult(false, resp, isAdd);
                 } else {
                     mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
                 }

@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -38,7 +39,7 @@ public class MusicAdapter extends BaseQuickAdapter<MusicResp, BaseViewHolder> {
         TextView tvGoodNum = baseViewHolder.getView(R.id.tv_music_good_num);
         ImageView ivLike = baseViewHolder.getView(R.id.iv_music_like);
         TextView tvLikeNum = baseViewHolder.getView(R.id.tv_music_like_num);
-        CardView cslMusicLayout = baseViewHolder.getView(R.id.csl_music_info);
+        ConstraintLayout cslMusicLayout = baseViewHolder.getView(R.id.csl_music_info);
 
         if (!StringUtils.isStringNULL(musicResp.getUsername())) {
             tvUserName.setText(musicResp.getUsername());

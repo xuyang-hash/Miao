@@ -45,6 +45,9 @@ public class ForgetPwdInputPwdFragment extends BaseFragment<FragmentInputPwdLayo
     public void initView(View mView) {
         binding.tvBindTitle.setText(R.string.account_reset_pwd_title);
         ArmsUtils.showPwdLevel(getContext(), binding.etPassword1, binding.passwordPowerPoor, binding.passwordPowerMiddle, binding.passwordPowerStrong);
+        binding.etPassword1.setHint(R.string.account_reset_pwd_new_hint);
+        binding.etPassword2.setHint(R.string.account_reset_pwd_confirm_hint);
+        binding.tvInputPwdSubmit.setText(R.string.common_submit);
         binding.llNicknameInput.setVisibility(View.GONE);
         binding.tvInputPwdSubmit.setOnClickListener(this);
         binding.cbEye1.setOnClickListener(this);

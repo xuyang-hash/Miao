@@ -84,9 +84,15 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                     msg.arg1 = AccountCode.LOGIN_CONNECT_FAILED.getCode();
                 } finally {
                     try {
-                        connection.close();
-                        ps.close();
-                        resultSet.close();
+                        if (connection != null) {
+                            connection.close();
+                        }
+                        if (ps != null) {
+                            ps.close();
+                        }
+                        if (resultSet != null) {
+                            resultSet.close();
+                        }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

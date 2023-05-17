@@ -353,11 +353,11 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         if (isSuccess) {
             ToastUtils.showShort(this, isLike ? R.string.music_like_add_success : R.string.music_like_cancel_success);
             if (isLike) {
-                musicInfo.addGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+                musicInfo.addLike(LocalDataManager.getInstance().getUserInfo().getUsername());
             } else {
-                musicInfo.delGood(LocalDataManager.getInstance().getUserInfo().getUsername());
+                musicInfo.delLike(LocalDataManager.getInstance().getUserInfo().getUsername());
             }
-            binding.tvEditLike.setText(musicInfo.getGoodNum() + "");
+            binding.tvEditLike.setText(musicInfo.getLikeNum() + "");
         } else {
             ToastUtils.showShort(this, isLike ? R.string.music_like_add_failed : R.string.music_like_cancel_failed);
             binding.ivEditLike.setSelected(!binding.ivEditLike.isSelected());
