@@ -86,7 +86,7 @@ public class EditPwdActivity extends BaseActivity<ActivityEditPwdLayoutBinding, 
             }
 
             if (!StringUtils.contrast(password, passwordConfirm)) {
-                ToastUtils.showShort(this, R.string.common_edit_pwd_error1);
+                ToastUtils.showShort(this, R.string.common_edit_pwd_error6);
                 return;
             }
 

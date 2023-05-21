@@ -79,7 +79,7 @@ public class RegisterInputPwdFragment extends BaseFragment<FragmentInputPwdLayou
             }
 
             if (!StringUtils.contrast(password, passwordConfirm)) {
-                ToastUtils.showShort(getContext(), R.string.common_edit_pwd_error1);
+                ToastUtils.showShort(getContext(), R.string.common_edit_pwd_error6);
                 return;
             }
 

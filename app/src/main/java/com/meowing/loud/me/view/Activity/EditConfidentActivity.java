@@ -11,12 +11,10 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.meowing.loud.R;
 import com.meowing.loud.arms.base.BaseActivity;
-import com.meowing.loud.arms.constant.EventConstant;
 import com.meowing.loud.arms.constant.MMKConstant;
 import com.meowing.loud.arms.di.component.AppComponent;
 import com.meowing.loud.arms.dialog.CSeeLoadingDialog;
 import com.meowing.loud.arms.dialog.ConditionTypeDialog;
-import com.meowing.loud.arms.entity.MessageWrap;
 import com.meowing.loud.arms.utils.MeoSPUtil;
 import com.meowing.loud.arms.utils.StringUtils;
 import com.meowing.loud.arms.utils.ToastUtils;
@@ -25,8 +23,6 @@ import com.meowing.loud.me.contract.UserContract;
 import com.meowing.loud.me.di.component.DaggerUserComponent;
 import com.meowing.loud.me.di.module.UserModule;
 import com.meowing.loud.me.presenter.UserPresenter;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -209,7 +205,7 @@ public class EditConfidentActivity extends BaseActivity<FragmentSetConfidentiali
     @Override
     public void setQuestionAndAnswerResult() {
         ToastUtils.showShort(this, R.string.account_set_confidentiality_submit_success);
-        EventBus.getDefault().post(new MessageWrap(EventConstant.ModuleLogin.ACCOUNT_REGISTER_SET_Q_AND_A_SUCCESS, null));
+        finish();
     }
 
     @Override
