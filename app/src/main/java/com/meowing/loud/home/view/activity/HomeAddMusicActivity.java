@@ -68,7 +68,7 @@ public class HomeAddMusicActivity extends BaseActivity<ActivityHomeAddMusicLayou
         int id = view.getId();
         if (id == R.id.iv_music_head) {
             outChooseHeadDialog();
-        } else {
+        } else if (id == R.id.tv_submit) {
             submit();
         }
     }
@@ -84,8 +84,8 @@ public class HomeAddMusicActivity extends BaseActivity<ActivityHomeAddMusicLayou
                     @Override
                     public void onConfirm() {
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("audio/*");  // 设置文件类型为音频文件
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("audio/*");  // 设置文件类型为音频文件
                         startActivityForResult(intent, REQUEST_CODE_FILE_PICKER_AUDIO);
                     }
 

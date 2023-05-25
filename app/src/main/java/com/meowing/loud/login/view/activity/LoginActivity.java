@@ -91,6 +91,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginLayoutBinding, Logi
         }
     }
 
+    /**
+     * 进行登录校验操作
+     */
     private void login() {
         username = binding.etUsername.getText().toString().trim();
         password = binding.etPassword.getText().toString().trim();

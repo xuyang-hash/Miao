@@ -29,6 +29,8 @@ public enum AccountCode implements BusinessCode {
     UPDATE_MUSIC_LIKE_FAILED(-5011, R.string.music_like_add_failed),
 
     UPDATE_MUSIC_STATE_FAILED(-5021, R.string.music_state_pass_failed),
+
+    ADD_MUSIC_SAVE_FAILED(-5031, R.string.common_save_failed),
     ;
 
     private final int code;

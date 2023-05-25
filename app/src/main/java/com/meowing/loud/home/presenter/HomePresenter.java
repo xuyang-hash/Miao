@@ -144,6 +144,7 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
 
             @Override
             public void onFailed(int errorId) {
+                mRootView.hideLoading();
                 mRootView.error(ErrorCodeManager.parseErrorCode(mApplication, errorId, R.string.common_unknown_error, AccountCode.class));
             }
         });

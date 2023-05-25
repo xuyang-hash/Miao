@@ -281,7 +281,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                     if (rs > 0) {
                         msg.arg1 = SuccessCode.SUCCESS.getCode();
                     } else {
-                        msg.arg1 = AccountCode.UPDATE_MUSIC_GOOD_FAILED.getCode();
+                        msg.arg1 = AccountCode.ADD_MUSIC_SAVE_FAILED.getCode();
                     }
 
                 } catch (SQLException e) {

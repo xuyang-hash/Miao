@@ -18,6 +18,12 @@ import java.io.InputStream;
 
 public class AudioUtils {
 
+    /**
+     * 通过Uri读取文件路径
+     * @param context
+     * @param uri
+     * @return
+     */
     private static String getFilePathFromUri(Context context, Uri uri) {
         String filePath = null;
 
@@ -74,6 +80,11 @@ public class AudioUtils {
     }
 
 
+    /**
+     * 根据文件路径去读取文件内容，并且输出成byte数组
+     * @param filePath
+     * @return
+     */
     private static byte[] readAudioFileToByteArray(String filePath) {
         FileInputStream fileInputStream = null;
         ByteArrayOutputStream byteArrayOutputStream = null;
