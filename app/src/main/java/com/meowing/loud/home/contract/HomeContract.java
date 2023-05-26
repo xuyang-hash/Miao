@@ -47,7 +47,7 @@ public interface HomeContract {
         }
 
         /**
-         * 上传音乐回调
+         * 上传音乐回调～
          * @param isSuccess
          */
         default void addMusicResult(boolean isSuccess) {
