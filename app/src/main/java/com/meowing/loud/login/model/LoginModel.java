@@ -71,6 +71,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                         if (StringUtils.contrast(password, realpassword)) {
                             msg.arg1 = SuccessCode.SUCCESS.getCode();
                             LocalDataManager.getInstance().setUserInfo(user);
+                            //将用户信息保存至本地
                             MeoSPUtil.putString(MMKConstant.LOGIN_USER_NAME, user.getUsername());
                             MeoSPUtil.putInt(MMKConstant.LOGIN_USER_TYPE, AppConstant.ROLE_TYPE_USER);
                         } else {

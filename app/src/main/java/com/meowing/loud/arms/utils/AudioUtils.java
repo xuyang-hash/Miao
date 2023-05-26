@@ -127,7 +127,7 @@ public class AudioUtils {
     }
 
     /**
-     * 将音频二进制数组转为base64字符串
+     * 将音频文件转为base64字符串
      * @return
      */
     public static String toAudioStringFromFile(Context context, Uri uri){

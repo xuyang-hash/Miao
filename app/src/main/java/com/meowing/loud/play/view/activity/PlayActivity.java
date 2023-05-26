@@ -238,7 +238,7 @@ public class PlayActivity extends BaseActivity<ActivityPlayLayoutBinding, PlayPr
         binding.ivMusicRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (musicInfo.getState() == AppConstant.MUSIC_TYPE_PASS) {
+                if (musicInfo.getState() == AppConstant.MUSIC_TYPE_REFUSE) {
                     ToastUtils.showShort(PlayActivity.this, R.string.music_state_refuse_already_tip);
                 } else {
                     outUpdateStateDialog(false);

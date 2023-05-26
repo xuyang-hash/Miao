@@ -60,11 +60,12 @@
         android:layout_marginEnd="@dimen/dp_50"
         android:layout_marginBottom="@dimen/normal_margin"
         app:layout_constraintBottom_toTopOf="@+id/ll_seek">
+
         <ImageView
             android:id="@+id/iv_music_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_right"/>
+            android:src="@drawable/ic_right" />
 
         <ImageView
             android:id="@+id/iv_music_refuse"
